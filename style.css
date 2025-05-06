@@ -1,0 +1,2029 @@
+.inmuebles-table td:last-child,
+.visitas-table td:last-child,
+.usuarios-table td:last-child {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+  white-space: nowrap;
+}
+
+.icon-button {
+  display: inline-block;
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0 2px;
+}
+
+.icon-button img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+/* Ajustes responsive */
+@media screen and (max-width: 768px) {
+  .icon-button img {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .sidebar {
+    width: 180px;
+  }
+
+  .main {
+    margin-left: 200px;
+    padding: 15px;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .user-box {
+    bottom: 20px;
+    font-size: 16px;
+    padding: 8px 15px;
+  }
+
+  .sidebar .botonessidebar {
+    padding: 8px;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .time {
+    font-size: 36px;
+    margin-bottom: 30px;
+  }
+}
+
+.sidebar {
+  width: 200px;
+  background-color: rgb(85, 85, 85);
+  padding: 20px 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.7), 5px 0 30px rgba(0, 0, 0, 0.4);
+  height: 100vh;
+  position: fixed; 
+  overflow-y: hidden;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+/* Estilos para la transición entre páginas */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+body {
+  position: relative;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  height: 100vh; 
+  background: url('Mainmenu2.png') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.time {
+  font-size: 48px;
+  margin-bottom: 40px;
+}
+
+.sidebar .botonessidebar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #d9d9d9;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+}
+
+.sidebar button:hover {
+  background-color: #bbb;
+}
+
+
+.main {
+  margin-left: 220px; 
+  flex-grow: 1;
+  position: relative;
+  padding: 20px;
+  background-color: rgb(189, 189, 189);
+  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+
+.create-note-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.notes {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.note {
+  background-color: rgba(255, 100, 100, 0.85);
+  color: black;
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 300px;
+}
+
+.note {
+  resize: both;
+  overflow: auto;
+  min-width: 150px;
+  min-height: 100px;
+  box-sizing: border-box;
+}
+
+textarea.note-input.note {
+  resize: both !important;
+  overflow: auto !important;
+}
+
+.calendar {
+  width: 350px;
+  background-color: #fcfcfc71;
+  padding: 10px;
+  height: 245px;
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.calendar table {
+  width: 20%;
+  border-collapse: collapse;
+}
+
+.calendar th,
+.calendar td {
+  width: 14.2%;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #9e9e9e;
+
+}
+
+.calendar th {
+  background-color: #fcfcfc71;
+  font-weight: 600;
+}
+
+.hoy {
+  color: red;
+  font-weight: bold;
+}
+
+.user-box {
+  background-color: #333;
+  color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  position: absolute; /* Posicionamiento absoluto */
+  bottom: 60px; /* Distancia desde el fondo */
+  left: 0; /* Alineación izquierda */
+  margin: 0 10px; /* Márgenes laterales */
+  width: calc(100% - 20px); /* Ancho ajustado considerando los márgenes */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+
+#user-box button {
+  background-color: #6e6e6e;
+}
+
+.user-box img {
+  padding-left: 80px;
+}
+
+.user-box:hover {
+  background-color: #555;
+}
+
+#inmueblesSection {
+  background-color: #fa4639;
+  padding: 20px;
+  border-radius: 15px;
+  color: #333;
+  text-align: center;
+}
+
+
+.inmuebles-actions {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+
+.inmuebles-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+
+.inmuebles-table thead {
+  background-color: #ddd;
+}
+
+.inmuebles-table th,
+.inmuebles-table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+  border: 1px solid #999;
+}
+
+.inmuebles-table tbody tr:nth-child(odd) {
+  background-color: #d1d1d1;
+}
+
+.inmuebles-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+
+.delete-icon {
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+}
+
+.delete-icon:hover {
+  color: red;
+}
+
+.inmuebles-table input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.inmuebles-actions button {
+  background-color: rgb(253, 253, 253);
+  border-radius: 10px;
+  border: 0px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+}
+
+.inmuebles-actions button:hover {
+  background-color: rgb(189, 189, 189);
+  transition: 0.2s;
+}
+
+.inmuebles-actions input {
+  background-color: rgb(253, 253, 253);
+  border-radius: 10px;
+  border: 0px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+}
+
+
+#btn-confirmar-modificacion {
+  background-color: #fa4033;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#btn-confirmar-modificacion:hover {
+  background-color: #e65c00;
+}
+
+#form-inmueble {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+#form-inmueble label {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-weight: bold;
+}
+
+#form-inmueble input,
+#form-inmueble select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #999;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+
+#modifyPropertyForm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+#modifyPropertyForm input,
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #999;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.cerrar-modal {
+  color: #818181;
+  float: right;
+  font-size: 28px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.cerrar-modal:hover,
+.cerrar-modal:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+#modal-registrar .modal-content {
+  max-width: 500px;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: #c4c4c4;
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+  font-family: sans-serif;
+  overflow: auto;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+.guardar {
+  background-color: #fa4033;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+.guardar {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.modalvisualizarinmueble {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter", sans-serif;
+}
+
+.modal-visualizarinmueble {
+  background-color: #c4c4c4;
+  margin: auto;
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 800px;
+  height: auto;
+  position: relative;
+  font-family: "Inter", sans-serif;
+}
+
+.modal-visualizarinmueble h1,
+.modal-visualizarinmueble p {
+  font-family: "Inter", sans-serif;
+}
+
+.inmuebles-table button {
+  text-decoration: none;
+  border: 0px;
+  background-color: rgb(189, 189, 189, 0);
+}
+
+#visualizarModal h2,
+#visualizarModal h3,
+#visualizarModal p,
+#visualizarModal ul,
+#visualizarModal td {
+  font-family: 'Inter', sans-serif;
+}
+
+.tablavisualizarinmueble {
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.tablavisualizarinmueble {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 16px;
+}
+
+.tablavisualizarinmueble td {
+  padding: 20px;
+  padding-left: 70px;
+  font-family: "Inter", sans-serif;
+}
+
+.item-inmueble {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-inmueble img {
+  width: 24px;
+  height: 24px;
+}
+
+/*vv               Login               vv*/
+.login-page {
+  background: url(img/Fondologin.png);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-box {
+  background-color: #222;
+  padding: 40px;
+  border-radius: 10px;
+  width: 350px;
+  text-align: center;
+}
+
+.login-logo img {
+  width: 100px;
+  margin-bottom: 30px;
+}
+
+.login-input {
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.login-input i {
+  color: #555;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.login-input input {
+  border: none;
+  background: none;
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+}
+
+.forgot-password {
+  display: block;
+  color: #ccc;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  color: #fa4033;
+}
+
+.login-button {
+  background-color: #fa4033;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #d6382d;
+}
+
+/*vv  Visitas  vv*/
+
+#visitasSection {
+  background-color: #fa4639;
+  padding: 20px;
+  border-radius: 15px;
+  color: #333;
+  text-align: center;
+}
+
+.visitas-actions {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.visitas-actions button {
+  background-color: rgb(253, 253, 253);
+  border-radius: 10px;
+  border: 0px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+}
+
+.visitas-actions input {
+  background-color: rgb(253, 253, 253);
+  border-radius: 10px;
+  border: 0px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+}
+
+
+.visitas-actions button:hover {
+  background-color: #ddd;
+}
+
+.visitas-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.visitas-table thead {
+  background-color: #ddd;
+}
+
+.visitas-table th,
+.visitas-table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+  border: 1px solid #999;
+}
+
+.visitas-table tbody tr:nth-child(odd) {
+  background-color: #d1d1d1;
+}
+
+.visitas-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.delete-btn {
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+}
+
+.delete-btn:hover {
+  color: red;
+}
+
+.visitas-table input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/*Modal registrar inmueble*/
+#modal-registrar {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+#modal-registrar .modal-content {
+  background-color: #bfbfbf;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+}
+
+#modal-registrar h2 {
+  width: 100%;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+#modal-registrar form {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+#modal-registrar input,
+#modal-registrar textarea,
+#modal-registrar select {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+#modal-registrar textarea {
+  border-radius: 25px;
+  resize: none;
+  height: 120px;
+}
+
+#modal-registrar .grupo-col {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#modal-registrar .grupo-col p {
+  padding: 0px;
+  margin: 0px;
+}
+
+#modal-registrar .grupo-imagenes {
+  flex: 1;
+  max-width: 320px;
+  background-color: #a3a3a3;
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+#modal-registrar .grupo-imagenes h4 {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+#modal-registrar .preview-principal {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+#modal-registrar .carrusel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 5px;
+  margin-bottom: 0;
+  width: 200px;
+}
+
+#modal-registrar .miniatura {
+  position: relative;
+}
+
+#modal-registrar .miniatura img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
+#modal-registrar .miniatura .close-miniatura {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: black;
+  color: white;
+  border-radius: 50%;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+#modal-registrar .carrusel-boton {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: black;
+}
+
+#imageInput {
+  margin-top: 170px;
+}
+
+#modal-registrar .btn-cargar {
+  background-color: #fa4033;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+}
+
+
+#modal-registrar .btn {
+  background-color: #fa4033;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 180px;
+}
+
+#modal-registrar .btn:hover {
+  background-color: #c8372a;
+}
+
+#modal-registrar .cerrar-modal {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+#modal-registrar .cerrar-modal:hover {
+  color: #222;
+}
+
+/* modal modificar*/
+#modal-modificar {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+#modal-modificar .modal-content {
+  background-color: #bfbfbf;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+}
+
+#modal-modificar h2 {
+  width: 100%;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+#modal-modificar form {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+#modal-modificar input,
+#modal-modificar textarea,
+#modal-modificar select {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+#modal-modificar textarea {
+  border-radius: 25px;
+  resize: none;
+  height: 120px;
+}
+
+#modal-modificar .grupo-col {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#modal-modificar .grupo-col p {
+  padding: 0px;
+  margin: 0px;
+}
+
+#modal-modificar .grupo-imagenes {
+  flex: 1;
+  max-width: 320px;
+  background-color: #a3a3a3;
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+#modal-modificar .grupo-imagenes h4 {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+#modal-modificar .preview-principal {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+#modal-modificar .carrusel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 5px;
+  margin-bottom: 0;
+  width: 200px;
+}
+
+#modal-modificar .miniatura {
+  position: relative;
+}
+
+#modal-modificar .miniatura img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
+#modal-modificar .miniatura .close-miniatura {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: black;
+  color: white;
+  border-radius: 50%;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+#modal-modificar .carrusel-boton {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: black;
+}
+
+#imageInput {
+  margin-top: 170px;
+}
+
+#modal-modificar .btn-cargar {
+  background-color: #fa4033;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+}
+
+#modal-modificar .btn {
+  background-color: #fa4033;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 180px;
+}
+
+#modal-modificar .btn:hover {
+  background-color: #c8372a;
+}
+
+#modal-modificar .cerrar-modal {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+#modal-modificar .cerrar-modal:hover {
+  color: #222;
+}
+
+/*modal registrar visitas*/
+#modal-registrar-visita {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+#modal-registrar-visita .modal-content {
+  background-color: #bfbfbf;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  width: 60%;
+  max-width: 400px;
+  gap: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+}
+
+#modal-registrar-visita form {
+  width: 400px;
+  font-family: "Inter", sans-serif;
+}
+
+#modal-registrar-visita label {
+  margin: 10px;
+}
+
+#modal-registrar-visita input {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+#correrbotones {
+  margin: 0;
+}
+
+#boton-guardar-visita {
+  background-color: #fa4033;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-guardar-visita:hover {
+  background-color: #c8372a;
+  transition: 0.2s;
+}
+
+#boton-limpiar-visita {
+  background-color: #7c7c7c;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 180px;
+}
+
+#boton-limpiar-visita:hover {
+  background-color: #3b3b3b;
+  transition: 0.2s;
+}
+
+
+/*Modal modificar visitas*/
+
+#modal-modificar-visita {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+#modal-modificar-visita .modal-content {
+  background-color: #bfbfbf;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  width: 400px;
+  max-width: 400px;
+  gap: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+}
+
+#correrbotones {
+  margin: 0px;
+}
+
+#modal-modificar-visita form {
+  width: 390px;
+  font-family: "Inter", sans-serif;
+}
+
+#modal-modificar-visita label {
+  margin: 10px;
+}
+
+
+#modal-modificar-visita input {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+
+#boton-guardar-cambios-visita {
+  background-color: #fa4033;
+  color: white;
+  padding: 12px;
+  width: 200px;
+  border-radius: 15px;
+  font-size: 16px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-guardar-cambios-visita:hover {
+  background-color: #c8372a;
+  transition: 0.2s;
+}
+
+#boton-cancelar-modificar-visita {
+  background-color: #7c7c7c;
+  color: white;
+  padding: 12px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 100px;
+}
+
+#boton-cancelar-modificar-visita:hover {
+  background-color: #3b3b3b;
+  transition: 0.2s;
+}
+
+/*Modal confirmacion de eliminar*/
+#modal-confirmacion-eliminar {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+#modal-confirmacion-eliminar .modal-contenido {
+  background-color: #bfbfbf;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  width: 400px;
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+  justify-content: center;
+  position: relative;
+}
+
+#modal-confirmacion-eliminar .modal-contenido h2 {
+  font-weight: 500;
+}
+
+#boton-confirmar-eliminar {
+  background-color: #fa4033;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-confirmar-eliminar:hover {
+  background-color: #c8372a;
+  transition: 0.2s;
+}
+
+#boton-cancelar-eliminar {
+  background-color: #636363;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-cancelar-eliminar:hover {
+  background-color: #3a3a3a;
+  transition: 0.2s;
+}
+
+/*Modal para confirmar eliminacion de visita*/
+#modal-confirmacion-eliminar-visita {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+#modal-confirmacion-eliminar-visita .modal-contenido {
+  background-color: #bfbfbf;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  width: 400px;
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+  justify-content: center;
+  position: relative;
+}
+
+#modal-confirmacion-eliminar-visita .modal-contenido h2 {
+  font-weight: 500;
+}
+
+#boton-confirmar-eliminar-visita {
+  background-color: #fa4033;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-confirmar-eliminar-visita:hover {
+  background-color: #c8372a;
+  transition: 0.2s;
+}
+
+#boton-cancelar-eliminar-visita {
+  background-color: #636363;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-cancelar-eliminar-visita:hover {
+  background-color: #3a3a3a;
+  transition: 0.2s;
+}
+
+
+
+
+.inmuebles-table button {
+  background-color: transparent;
+  /* Fondo transparente */
+  border: none;
+  /* Sin borde */
+  cursor: pointer;
+  /* Cambia el cursor al pasar sobre el botón */
+  padding: 0px;
+  /* Espaciado interno */
+  transition: transform 0.2s;
+  /* Transición suave para el efecto de hover */
+  margin-right: 40px;
+  /* Espacio a la derecha de cada botón */
+}
+
+.inmuebles-table button:last-child {
+  margin-right: 0;
+  /* Elimina el margen derecho del último botón */
+}
+
+.inmuebles-table button:hover {
+  transform: scale(1.1);
+  /* Aumenta el tamaño al pasar el mouse */
+}
+
+.inmuebles-table button img {
+  width: 30px;
+  /* Ancho de la imagen */
+  height: 30px;
+  /* Alto de la imagen */
+}
+
+.visitas-table button {
+  background-color: transparent;
+  /* Fondo transparente */
+  border: none;
+  /* Sin borde */
+  cursor: pointer;
+  /* Cambia el cursor al pasar sobre el botón */
+  padding: 0px;
+  /* Espaciado interno */
+  transition: transform 0.2s;
+  /* Transición suave para el efecto de hover */
+  margin-right: 40px;
+  /* Espacio a la derecha de cada botón */
+}
+
+.visitas-table button:last-child {
+  margin-right: 0;
+  /* Elimina el margen derecho del último botón */
+}
+
+.visitas-table button:hover {
+  transform: scale(1.1);
+  /* Aumenta el tamaño al pasar el mouse */
+}
+
+.visitas-table button img {
+  width: 30px;
+  /* Ancho de la imagen */
+  height: 30px;
+  /* Alto de la imagen */
+}
+
+/* Estilos para la tabla de usuarios, similar a visitas */
+.usuarios-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.usuarios-table h2,
+label,
+button,
+select {
+  font-family: "Inter", sans-serif;
+}
+
+.usuarios-table thead {
+  background-color: #ddd;
+}
+
+.usuarios-table th,
+.usuarios-table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+  border: 1px solid #999;
+}
+
+.usuarios-table tbody tr:nth-child(odd) {
+  background-color: #d1d1d1;
+}
+
+.usuarios-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.usuarios-table button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+  transition: transform 0.2s;
+  margin-right: 40px;
+}
+
+.usuarios-table button:last-child {
+  margin-right: 0;
+}
+
+.usuarios-table button:hover {
+  transform: scale(1.1);
+}
+
+.usuarios-table button img {
+  width: 30px;
+  height: 30px;
+}
+
+/* Sección de usuarios */
+#usuariosSection {
+  background-color: #fa4639;
+  padding: 20px;
+  border-radius: 15px;
+  color: #333;
+  text-align: center;
+}
+
+.usuarios-actions {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.usuarios-actions button {
+  background-color: rgb(253, 253, 253);
+  border-radius: 10px;
+  border: 0px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+}
+
+.usuarios-actions input {
+  background-color: rgb(253, 253, 253);
+  border-radius: 10px;
+  border: 0px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+}
+
+.usuarios-actions button:hover {
+  background-color: #ddd;
+}
+
+/* Modal de Registro de Usuario */
+#modal-registrar-usuario {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#modal-registrar-usuario .modal-content {
+  background-color: #bfbfbf;
+  margin: 5% auto;
+  padding: 20px;
+  width: 400px;
+  border-radius: 20px;
+  position: relative;
+}
+
+#modal-registrar-usuario h2 {
+  color: #000;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+}
+
+#modal-registrar-usuario .cerrar-modal {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#modal-registrar-usuario .grupo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#modal-registrar-usuario label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+#modal-registrar-usuario input,
+#modal-registrar-usuario select {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px;
+  background-color: white;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#modal-registrar-usuario select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L13 1" stroke="%23000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 40px;
+}
+
+#modal-registrar-usuario #correrbotones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+#modal-registrar-usuario .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  color: white;
+  width: 100%;
+}
+
+#boton-limpiar-usuario {
+  background-color: #7c7c7c;
+}
+
+#boton-registrar-usuario {
+  background-color: #fa4033;
+}
+
+#boton-limpiar-usuario:hover {
+  background-color: #666666;
+}
+
+#boton-registrar-usuario:hover {
+  background-color: #d63328;
+}
+
+
+/* Modal de Registro de Usuario */
+#modal-registrar-usuario .modal-content {
+  background-color: #bfbfbf;
+  margin: 5% auto;
+  padding: 20px;
+  width: 400px;
+  border-radius: 20px;
+  position: relative;
+}
+
+#modal-registrar-usuario h2 {
+  color: #000;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#modal-registrar-usuario .cerrar-modal {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#modal-registrar-usuario .grupo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#modal-registrar-usuario label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+#modal-registrar-usuario input,
+#modal-registrar-usuario select {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px;
+  background-color: white;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#modal-registrar-usuario select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L13 1" stroke="%23000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 40px;
+}
+
+#modal-registrar-usuario #correrbotones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+#boton-limpiar-usuario,
+#boton-registrar-usuario {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  color: white;
+  width: 100%;
+}
+
+#boton-limpiar-usuario {
+  background-color: #7c7c7c;
+}
+
+#boton-registrar-usuario {
+  background-color: #fa4033;
+}
+
+#boton-limpiar-usuario:hover {
+  background-color: #666666;
+}
+
+#boton-registrar-usuario:hover {
+  background-color: #d63328;
+}
+
+/* Modal de Modificar Usuario */
+#modal-modificar-usuario .modal-content {
+  background-color: #bfbfbf;
+  margin: 5% auto;
+  padding: 20px;
+  width: 400px;
+  border-radius: 20px;
+  position: relative;
+}
+
+#modal-modificar-usuario h2 {
+  color: #000;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+}
+
+#modal-modificar-usuario .cerrar-modal {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#modal-modificar-usuario .grupo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#modal-modificar-usuario label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+#modal-modificar-usuario input,
+#modal-modificar-usuario select {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px;
+  background-color: white;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#modal-modificar-usuario select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L13 1" stroke="%23000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 40px;
+}
+
+#modal-modificar-usuario #correrbotones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+#boton-guardar-cambios-usuario {
+  background-color: #fa4033;
+  color: white;
+  padding: 12px;
+  width: 200px;
+  border-radius: 15px;
+  font-size: 16px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-guardar-cambios-usuario:hover {
+  background-color: #c8372a;
+  transition: 0.2s;
+}
+
+#boton-cancelar-modificar-usuario {
+  background-color: #7c7c7c;
+  color: white;
+  padding: 12px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 100px;
+}
+
+#boton-cancelar-modificar-usuario:hover {
+  background-color: #3b3b3b;
+  transition: 0.2s;
+}
+
+#modal-modificar-usuario .cerrar-modal {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#modal-modificar-usuario .cerrar-modal:hover {
+  color: #222;
+}
+
+#modal-modificar-usuario h2 {
+  color: #000;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#modal-modificar-usuario .grupo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/*Modal para confirmar eliminacion de usuarios*/
+
+#modal-confirmacion-eliminar-usuario {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+#modal-confirmacion-eliminar-usuario .modal-contenido {
+  background-color: #bfbfbf;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  width: 400px;
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+  justify-content: center;
+  position: relative;
+}
+
+#modal-confirmacion-eliminar-usuario .modal-contenido h2 {
+  font-weight: 500;
+}
+
+#boton-confirmar-eliminar-usuario {
+  background-color: #fa4033;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-confirmar-eliminar-usuario:hover {
+  background-color: #c8372a;
+  transition: 0.2s;
+}
+
+#boton-cancelar-eliminar-usuario {
+  background-color: #636363;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#boton-cancelar-eliminar-usuario:hover {
+  background-color: #3a3a3a;
+  transition: 0.2s;
+}
+
+/*Modal visualizar usuarios*/
+
+#modal-visualizar-usuario h2 {
+  color: #000;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#modal-visualizar-usuario {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+#modal-visualizar-usuario .modal-content {
+  background-color: #bfbfbf;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 30px 40px;
+  width: 400px;
+  max-width: 400px;
+  gap: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+}
+
+#modal-visualizar-usuario .grupo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#modal-visualizar-usuario label {
+  margin: 10px 0 5px 0;
+  font-weight: 500;
+  color: #333;
+}
+
+#modal-visualizar-usuario input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 50px;
+  background-color: white;
+  font-size: 16px;
+  color: #666;
+}
+
+#modal-visualizar-usuario input[readonly] {
+  background-color: #e9e9e9;
+  cursor: default;
+}
+
+#modal-visualizar-usuario .cerrar-modal {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+#modal-visualizar-usuario .cerrar-modal:hover {
+  color: #333;
+}
