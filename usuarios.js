@@ -26,14 +26,14 @@ function abrirModalVisualizarUsuario(id) {
     fetch(`http://localhost:8080/usuario/listar/${parseInt(id)}`)
         .then(response => response.json())
         .then(usuario => {
-            document.getElementById("visualizarNombre").innerText = usuario.nombre || "";
-            document.getElementById("visualizarApellido").innerText = usuario.apellido || "";
-            document.getElementById("visualizarDni").innerText = usuario.dni || "";
-            document.getElementById("visualizarTelefono").innerText = usuario.telefono || "";
-            document.getElementById("visualizarEmail").innerText = usuario.email || "";
-            document.getElementById("visualizarRol").innerText = usuario.rol || "";
-            document.getElementById("visualizarEstado").innerText = usuario.estado || "";
-            document.getElementById("visualizarInmueble").innerText = usuario.inmueble || "";
+            document.getElementById("visualizarNombre").innerText = `Nombre: ${usuario.nombre || ""}`;
+            document.getElementById("visualizarApellido").innerText = `Apellido: ${usuario.apellido || ""}`;
+            document.getElementById("visualizarDni").innerText = `DNI: ${usuario.dni || ""}`;
+            document.getElementById("visualizarTelefono").innerText =`Telefono: ${usuario.telefono || ""}`;
+            document.getElementById("visualizarEmail").innerText = `Email: ${usuario.email || ""}`;
+            document.getElementById("visualizarRol").innerText =`Rol: ${usuario.rol || ""}`;
+            document.getElementById("visualizarEstado").innerText =`Estado: ${usuario.estado || ""}`;
+            document.getElementById("visualizarInmueble").innerText =`Inmueble: ${usuario.inmueble || ""}`;
 
             document.getElementById('modal-visualizar-usuario').style.display = 'block';
         })
