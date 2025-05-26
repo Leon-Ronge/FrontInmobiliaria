@@ -6,7 +6,7 @@ function cerrarModal(modalId) {
     }
 }
 
-function abrirModalConfirmacionEliminar() {
+/*function abrirModalConfirmacionEliminar() {
     const modalConfirmacion = document.getElementById('modal-confirmacion-eliminar');
     if (modalConfirmacion) {
         modalConfirmacion.style.display = 'block';
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-/*function abrirModalModificarUsuario() {
+function abrirModalModificarUsuario() {
     const modalModificarUsuario = document.getElementById('modal-modificar-usuario');
     if (modalModificarUsuario) {
         modalModificarUsuario.style.display = 'block';
@@ -217,7 +217,7 @@ function eliminarUsuario(idUsuario) {
         modalConfirmacionUsuario.style.display = 'block';
     }
 }
-*/
+
 let idUsuarioAEliminar = null;
 
 // Dentro del DOMContentLoaded, justo antes del window.onclick
@@ -263,4 +263,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
     }
-});
+});*/
