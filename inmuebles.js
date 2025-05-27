@@ -105,46 +105,6 @@ function cargarInmuebles() {
         });
 }
 
-// Funcion que abre modal para visualizar un inmueble
-    function abrirModalVisualizarInmueble(id) {
-    fetch(`http://localhost:8080/inmobiliaria/${parseInt(id)}`)
-        .then(response => response.json())
-        .then(inmueble => {
-            document.getElementById("visualizarTitulo").innerText = inmueble.titulo || "";
-            document.getElementById("visualizarCalle").innerText = inmueble.calle || "";
-            document.getElementById("visualizarAltura").innerText = inmueble.altura || "";
-            document.getElementById("visualizarBarrio").innerText = inmueble.barrio || "";
-            document.getElementById("visualizarCiudad").innerText = inmueble.ciudad || "";
-            document.getElementById("visualizarPiso").innerText = inmueble.piso || "";
-            document.getElementById("visualizarSuperficie").innerText = inmueble.superficie || "";
-            document.getElementById("visualizarTipoInmueble").innerText = inmueble.tipoInmueble || "";
-            document.getElementById("visualizarPrecio").innerText = inmueble.precio || "";
-            document.getElementById("visualizarBanios").innerText = inmueble.banios || "";
-            document.getElementById("visualizarDormitorios").innerText = inmueble.dormitorios || "";
-            document.getElementById("visualizarDescripcion").innerText = inmueble.descripcion || "";
-            document.getElementById("visualizarAntiguedad").innerText = inmueble.antiguedad ? `${inmueble.antiguedad} años` : "";
-
-            const imgElement = document.getElementById("visualizarImagen");
-            imgElement.src = inmueble.imagenPrincipal || "img/default.jpg";
-
-            const ul = document.getElementById("visualizarCaracteristicas");
-            ul.innerHTML = "";
-            if (Array.isArray(inmueble.caracteristicas)) {
-                inmueble.caracteristicas.forEach(caracteristica => {
-                    const li = document.createElement("li");
-                    li.innerText = caracteristica;
-                    ul.appendChild(li);
-                });
-            }
-
-            document.getElementById('visualizarModal').style.display = 'block';
-        })
-        .catch(error => {
-            console.error("Error al visualizar inmueble:", error);
-            alert("No se pudo cargar el inmueble.");
-        });
-}
-
 // Funcion que abre modal para modificar inmuebles
     function abrirModalModificarInmueble(id) {
     fetch(`http://localhost:8080/inmobiliaria/${id}`)
@@ -162,6 +122,7 @@ function cargarInmuebles() {
                 document.getElementById("modificar-dormitorios").value = inmueble.dormitorios || "";
                 document.getElementById("modificar-banios").value = inmueble.banios || "";
                 document.getElementById("modificar-superficie").value = inmueble.superficie || "";
+                document.getElementById("modificar-precio").value = inmueble.precio || "";
                 document.getElementById("modificar-tipoInmueble").value = inmueble.tipoInmueble || "";
                 document.getElementById("modificar-operacion").value = inmueble.operacion || "";
 
@@ -198,6 +159,11 @@ function cargarInmuebles() {
 
 document.addEventListener('DOMContentLoaded', function (){
     cargarInmuebles();
+    const btnAbrirModalRegistrar = document.getElementById("btn-registrar-inmueble");
+    if (btnAbrirModalRegistrar) {
+        btnAbrirModalRegistrar.addEventListener("click", abrirModalRegistrar);
+}
+
 
 // registrar inmueble
     const formRegistrar = document.getElementById("form-registrar-inmueble");
@@ -215,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function (){
             dormitorios: document.getElementById("dormitorios").value,
             banios: document.getElementById("banios").value,
             superficie: document.getElementById("superficie").value,
+            precio: document.getElementById("precio").value,
             tipoInmueble: document.getElementById("tipoInmueble").value,
             operacion: document.getElementById("operacion").value
         };
@@ -259,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function (){
         dormitorios: document.getElementById("modificar-dormitorios").value,
         banios: document.getElementById("modificar-banios").value,
         superficie: document.getElementById("modificar-superficie").value,
+        precio: document.getElementById("modificar-precio").value,
         tipoInmueble: document.getElementById("modificar-tipoInmueble").value,
         operacion: document.getElementById("modificar-operacion").value
     };
@@ -329,4 +297,3 @@ document.addEventListener('DOMContentLoaded', function (){
 }
 
 });
-    

@@ -40,5 +40,4 @@ document.addEventListener("DOMContentLoaded", function () {
   if (btnRegistrarVenta) {
       btnRegistrarVenta.addEventListener('click', abrirModalRegistrarVenta);
   }
-
 });

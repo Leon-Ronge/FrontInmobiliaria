@@ -243,5 +243,4 @@ window.onload = function () {
   const modalVisita = document.getElementById("modal-registrar-visita");
   
   const spans = document.querySelectorAll('.cerrar-modal');
-
 }

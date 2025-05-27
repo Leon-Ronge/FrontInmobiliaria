@@ -67,28 +67,6 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-inmuebles">
-            <tr>
-              <td>Hermoso Departamento</td>
-              <td>Justo J. Urquiza</td>
-              <td>184</td>
-              <td>Centro</td>
-              <td>9 D</td>
-              <td>50</td>
-              <td>Alquiler</td>
-              <td>Si</td>
-              <td>$2.500</td>
-              <td>
-                <button class="icon-button" onclick="abrirModalVisualizarInmueble(id)">
-                  <img src="svg/Ojo.svg" alt="Visualizar" width="24" height="24">
-                </button>
-                <button class="icon-button" onclick="abrirModalModificarInmueble(id)">
-                  <img src="svg/Lapiz.svg" alt="Modificar" width="24" height="24">
-                </button>
-                <button class="icon-button" onclick="eliminarInmueble(id) ">
-                  <img src="svg/Tacho.svg" alt="Eliminar" width="24" height="24">
-                </button>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -174,7 +152,7 @@
             <input type="number" id="superficie" required>
             <label>Precio</label>
             <div class="precio-container">
-              <input type="number" id="moficiar-precio" min="0" required>
+              <input type="number" id="precio" min="0" required>
               <div class="moneda-selector">
                 <input type="radio" id="pesos" name="moneda" value="pesos" checked>
                 <label for="pesos">Pesos</label>
@@ -249,7 +227,7 @@
             <label>Superficie (m2)</label>
             <input type="number" id="modificar-superficie" min="0" required>
             <label>Precio</label>
-            <input type="number" id="moficiar-precio" min="0" required>
+            <input type="number" id="modificar-precio" min="0" required>
 
             <label>Tipo de Inmueble</label>
             <select id="modificar-tipoInmueble" required>
@@ -797,5 +775,3 @@
     <script src="usuarios.js"></script>
     <script src="ventas.js"></script>
 </body>
-
-</html>
