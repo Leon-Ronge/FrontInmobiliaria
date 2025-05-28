@@ -290,65 +290,8 @@
               <th>Acción</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>2025-04-26</td>
-              <td>13:00</td>
-              <td>Juan Pérez</td>
-              <td>Av. Libertador 1234</td>
-              <td>12345678</td>
-              <td>3512345678</td>
-              <td>
-                <button class="icon-button" onclick="visualizarVisita(1)">
-                  <img src="svg/Ojo.svg" alt="Visualizar" width="24" height="24">
-                </button>
-                <button class="icon-button" onclick="abrirModalModificarVisita()">
-                  <img src="svg/Lapiz.svg" alt="Modificar" width="24" height="24">
-                </button>
-                <button class="icon-button" onclick="eliminarVisita(1)">
-                  <img src="svg/Tacho.svg" alt="Eliminar" width="24" height="24">
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <tr>
-                <td>2025-04-26</td>
-                <td>10:00</td>
-                <td>Juan Pérez</td>
-                <td>Av. Alvear 1234</td>
-                <td>12345678</td>
-                <td>3512345678</td>
-                <td>
-                  <button class="icon-button" onclick="visualizarVisita(1)">
-                    <img src="svg/Ojo.svg" alt="Visualizar" width="24" height="24">
-                  </button>
-                <button class="icon-button" onclick="abrirModalModificarVisita()">
-                  <img src="svg/Lapiz.svg" alt="Modificar" width="24" height="24">
-                </button>
-                <button class="icon-button" onclick="eliminarVisita(2)">
-                  <img src="svg/Tacho.svg" alt="Eliminar" width="24" height="24">
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>2025-04-26</td>
-              <td>15:00</td>
-              <td>Juan Pérez</td>
-              <td>Av. Superior 1234</td>
-              <td>12345678</td>
-              <td>3512345678</td>
-              <td>
-                <button class="icon-button" onclick="visualizarVisita(1)">
-                  <img src="svg/Ojo.svg" alt="Visualizar" width="24" height="24">
-                </button>
-                <button class="icon-button" onclick="abrirModalModificarVisita()">
-                  <img src="svg/Lapiz.svg" alt="Modificar" width="24" height="24">
-                </button>
-                <button class="icon-button" onclick="eliminarVisita(3)">
-                  <img src="svg/Tacho.svg" alt="Eliminar" width="24" height="24">
-                </button>
-              </td>
-            </tr>
+          <tbody id="tabla-resumida-visitas">
+            
           </tbody>
         </table>
       </div>
@@ -473,6 +416,7 @@
               <th>Email</th>
               <th>Rol</th>
               <th>Estado</th>
+              <th>Inmueble</th>
               <th>Acción</th>
             </tr>
           </thead>
@@ -561,6 +505,8 @@
               <option value="admin">Administrador</option>
               <option value="vendedor">Vendedor</option>
               <option value="secretario">Secretario</option>
+              <option value="inquilino">Inquilino</option>
+              <option value="propietario">Propietario</option>
             </select>
 
             <label>Estado</label>
@@ -571,7 +517,7 @@
             </select>
 
             <label>Inmueble</label>
-            <input type="text" required>
+            <input type="text" id="inmuebleModificarUsuario" required>
 
             <div id="correrbotones" style="margin-top: 20px; display: flex; gap: 10px;">
               <button id="boton-cancelar-modificar-usuario" class="btn" type="button"
@@ -773,5 +719,6 @@
     <script src="modales.js"></script>
     <script src="inmuebles.js"></script>
     <script src="usuarios.js"></script>
+    <script src="visitas.js"></script>
     <script src="ventas.js"></script>
 </body>

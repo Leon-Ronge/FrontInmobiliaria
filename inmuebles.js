@@ -199,6 +199,11 @@ function cargarInmuebles() {
 document.addEventListener('DOMContentLoaded', function (){
     cargarInmuebles();
 
+    const btnAbrirModalRegistrar = document.getElementById("btn-registrar-inmueble");
+    if (btnAbrirModalRegistrar) {
+        btnAbrirModalRegistrar.addEventListener("click", abrirModalRegistrar);
+    }
+
 // registrar inmueble
     const formRegistrar = document.getElementById("form-registrar-inmueble");
     if (formRegistrar) {
