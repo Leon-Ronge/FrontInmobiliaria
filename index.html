@@ -520,9 +520,14 @@
             <div id="campo-inmueble-registrar" style="display: none;">
               <label>Inmuebles <span id="obligatorio">*</span></label>
               <div id="inmuebles-container-registrar">
-                <div class="inmueble-wrapper">
-                  <input type="text" class="inmueble-input" name="inmueble" required>
+                <div class="usuario-inmueble-wrapper">
+                  <select class="usuario-inmueble-select" name="inmueble" required>
+                    <option disabled selected>Seleccionar inmueble</option>
+                    <option value="inmueble1">Departamento - Mitre 123</option>
+                  </select>
                 </div>
+                
+                
               </div>
               <button type="button" id="agregar-inmueble-btn-registrar" class="btn-agregar-inmueble">+ Agregar inmueble</button>
             </div>
@@ -531,7 +536,7 @@
               <button id="boton-limpiar-usuario" class="btn" onclick="limpiarFormulario()">Limpiar</button>
               <button id="boton-registrar-usuario" type="submit" class="btn">Registrar</button>
             </div>
-            
+
           </div>
         </form>
       </div>
@@ -561,7 +566,7 @@
             <label>Email <span id="obligatorio">*</span></label>
             <input type="email" id="emailModificarUsuario" required>
 
-             <label>Rol <span id="obligatorio">*</span></label>
+            <label>Rol <span id="obligatorio">*</span></label>
             <select id="rol-modificar" required>
               <option disabled selected>Seleccionar rol</option>
               <option value="admin">Administrador</option>
@@ -578,19 +583,29 @@
               <option value="inactivo">Inactivo</option>
             </select>
 
+            
             <div id="campo-inmueble-modificar" style="display: none;">
               <label>Inmuebles <span id="obligatorio">*</span></label>
               <div id="inmuebles-container-modificar">
-                <div class="inmueble-wrapper">
-                  <input type="text" class="inmueble-input" name="inmueble" required>
+                <div class="modificar-inmueble-wrapper">
+                  <select class="modificar-inmueble-select" name="inmueble" required>
+                    <option disabled selected>Seleccionar inmueble</option>
+                    <option value="inmueble1">Departamento - Mitre 123</option>
+                    <option value="inmueble2">Casa - Sarmiento 456</option>
+                    <option value="inmueble3">Local - Belgrano 789</option>
+                  </select>
                 </div>
               </div>
-              <button type="button" id="agregar-inmueble-btn-modificar" class="btn-agregar-inmueble">+ Agregar inmueble</button>
+              <button type="button" id="agregar-inmueble-btn-modificar" class="btn-agregar-inmueble">
+                + Agregar inmueble
+              </button>
             </div>
-
+            
+            
+            
+          
             <div id="correrbotones" style="margin-top: 20px; display: flex; gap: 10px;">
-              <button id="boton-cancelar-modificar-usuario" class="btn" type="button"
-                onclick="cerrarModal('modal-modificar-usuario')">Cancelar</button>
+              <button id="boton-limpiar-usuario" class="btn" onclick="limpiarFormulario()">Limpiar</button>
               <button id="boton-guardar-cambios-usuario" type="submit" class="btn">Guardar cambios</button>
             </div>
           </div>
