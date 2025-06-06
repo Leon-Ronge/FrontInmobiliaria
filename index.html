@@ -284,7 +284,7 @@
     <!-- Sección de Visitas -->
     <div class="visitas-section" id="visitasSection" style="display: none;">
       <div class="visitas-actions">
-        <button id="btnregistrarvisita">Registrar visita</button>
+        <button id="btnregistrarvisita" onclick="abrirModalRegistrarVisita()">Registrar visita</button>
         <button id="botonemitirlistadovisitas">Emitir listado</button>
       </div>
       <div style="overflow-x:auto;">
@@ -381,11 +381,21 @@
             <label>Hora <span id="obligatorio">*</span></label>
             <input type="tima" id="horaModificar" required>
 
-            <label>Inmueble <span id="obligatorio">*</span></label>
-            <select id="inmuebleModificar">
-              <option disabled selected> Seleccionar inmueble</option>
-            </select>
-
+            <div id="campo-inmueble-visita-modificar">
+              <label>Inmueble <span id="obligatorio">*</span></label>
+              <div id="inmuebles-container-visita-modificar">
+                <div class="inmueble-wrapper">
+                  <select class="inmueble-select" name="inmueble" required>
+                    <option disabled selected>Seleccionar inmueble</option>
+                    <option>(inmueble)</option>
+                  </select>
+                </div>
+              </div>
+              <button type="button" class="btn-agregar-inmueble" id="agregar-inmueble-btn-visita-modificar">
+                + Agregar otro inmueble
+              </button>
+            </div>
+            
             <div id="correrbotones" style="margin-top: 20px; display: flex; gap: 10px;">
               <button id="boton-cancelar-modificar-visita" class="btn" type="button"
                 onclick="cerrarModal('modal-modificar-visita')">Cancelar</button>
