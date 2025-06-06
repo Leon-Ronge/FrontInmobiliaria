@@ -1,3 +1,72 @@
+//agregar slect en registrar visita
+let contadorInmueblesVisita = 1;
+
+document.getElementById("agregar-inmueble-btn-visita").addEventListener("click", function () {
+  contadorInmueblesVisita++;
+
+  const container = document.getElementById("inmuebles-container-visita");
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "inmueble-wrapper";
+
+  const nuevoSelect = document.createElement("select");
+  nuevoSelect.className = "inmueble-select";
+  nuevoSelect.name = "inmueble";
+  nuevoSelect.required = true;
+
+  nuevoSelect.innerHTML = `
+    <option disabled selected>Seleccionar inmueble</option>
+    <option>(inmueble)</option>
+  `;
+
+  const botonEliminar = document.createElement("button");
+  botonEliminar.type = "button";
+  botonEliminar.textContent = "❌";
+  botonEliminar.className = "btn-eliminar-inmueble";
+  botonEliminar.onclick = function () {
+    wrapper.remove();
+  };
+
+  wrapper.appendChild(nuevoSelect);
+  wrapper.appendChild(botonEliminar);
+
+  container.appendChild(wrapper);
+});
+
+//agregar select modificar visitas
+let contadorInmueblesVisitaModificar = 1;
+
+document.getElementById("agregar-inmueble-btn-visita-modificar").addEventListener("click", function () {
+    const container = document.getElementById("inmuebles-container-visita-modificar");
+  
+    const wrapper = document.createElement("div");
+    wrapper.className = "inmueble-wrapper";
+  
+    const nuevoSelect = document.createElement("select");
+    nuevoSelect.className = "inmueble-select";
+    nuevoSelect.name = "inmueble";
+    nuevoSelect.required = true;
+  
+    nuevoSelect.innerHTML = `
+      <option disabled selected>Seleccionar inmueble</option>
+      <option>(inmueble)</option>
+    `;
+  
+    const eliminarBtn = document.createElement("button");
+    eliminarBtn.type = "button";
+    eliminarBtn.textContent = "❌";
+    eliminarBtn.className = "btn-eliminar-inmueble";
+    eliminarBtn.onclick = () => wrapper.remove();
+  
+    wrapper.appendChild(nuevoSelect);
+    wrapper.appendChild(eliminarBtn);
+    container.appendChild(wrapper);
+  });
+  
+
+
+
+
 let idVisitaAEliminar = null;
 
 document.addEventListener('DOMContentLoaded', function () {
