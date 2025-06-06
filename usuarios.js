@@ -2,81 +2,97 @@
 let idUsuarioAEliminar = null;
 // === FUNCIONES ===
 
-// Mostrar campo de inmueble si el rol es propietario o inquilino
+/// Mostrar campo de inmueble si el rol es propietario o inquilino
 document.getElementById("rol").addEventListener("change", function () {
-    const rol = this.value;
-    const campo = document.getElementById("campo-inmueble-registrar");
-  
-    if (rol === "propietario" || rol === "inquilino") {
-      campo.style.display = "block";
-      document.querySelectorAll("#inmuebles-container-registrar input").forEach(i => i.required = true);
-    } else {
-      campo.style.display = "none";
-      document.querySelectorAll("#inmuebles-container-registrar input").forEach(i => i.required = false);
-    }
-  });
-  
-  document.getElementById("agregar-inmueble-btn-registrar").addEventListener("click", function () {
-    const container = document.getElementById("inmuebles-container-registrar");
-  
-    const wrapper = document.createElement("div");
-    wrapper.className = "inmueble-wrapper";
-  
-    const input = document.createElement("input");
-    input.type = "text";
-    input.className = "inmueble-input";
-    input.name = "inmueble";
-    input.required = true;
-  
-    const eliminar = document.createElement("button");
-    eliminar.type = "button";
-    eliminar.textContent = "❌";
-    eliminar.className = "btn-eliminar-inmueble";
-    eliminar.onclick = () => wrapper.remove();
-  
-    wrapper.appendChild(input);
-    wrapper.appendChild(eliminar);
-    container.appendChild(wrapper);
+  const rol = this.value;
+  const campo = document.getElementById("campo-inmueble-registrar");
+
+  if (rol === "propietario" || rol === "inquilino") {
+    campo.style.display = "block";
+    document.querySelectorAll("#inmuebles-container-registrar select").forEach(i => i.required = true);
+  } else {
+    campo.style.display = "none";
+    document.querySelectorAll("#inmuebles-container-registrar select").forEach(i => i.required = false);
+  }
+});
+
+// Agregar <select> en vez de <input>
+document.getElementById("agregar-inmueble-btn-registrar").addEventListener("click", function () {
+  const container = document.getElementById("inmuebles-container-registrar");
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "inmueble-wrapper";
+
+  const nuevoSelect = document.createElement("select");
+  nuevoSelect.className = "inmueble-select";
+  nuevoSelect.name = "inmueble";
+  nuevoSelect.required = true;
+
+  nuevoSelect.innerHTML = `
+    <option disabled selected>Seleccionar inmueble</option>
+    <option value="inmueble1">Inmueble 1</option>
+    <option value="inmueble2">Inmueble 2</option>
+    <option value="inmueble3">Inmueble 3</option>
+  `;
+
+  const eliminar = document.createElement("button");
+  eliminar.type = "button";
+  eliminar.textContent = "❌";
+  eliminar.className = "btn-eliminar-inmueble";
+  eliminar.onclick = () => wrapper.remove();
+
+  wrapper.appendChild(nuevoSelect);
+  wrapper.appendChild(eliminar);
+  container.appendChild(wrapper);
+});
+
+
+// Mostrar/ocultar el campo de inmuebles según el rol en MODIFICAR
+document.getElementById("rol-modificar").addEventListener("change", function () {
+  const rol = this.value;
+  const campo = document.getElementById("campo-inmueble-modificar");
+
+  if (rol === "propietario" || rol === "inquilino") {
+    campo.style.display = "block";
+    document.querySelectorAll("#inmuebles-container-modificar select").forEach(i => i.required = true);
+  } else {
+    campo.style.display = "none";
+    document.querySelectorAll("#inmuebles-container-modificar select").forEach(i => i.required = false);
+  }
+});
+
+// Agregar select dinámico con ❌ en MODIFICAR
+document.getElementById("agregar-inmueble-btn-modificar").addEventListener("click", function () {
+  const container = document.getElementById("inmuebles-container-modificar");
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "inmueble-wrapper";
+
+  const nuevoSelect = document.createElement("select");
+  nuevoSelect.className = "inmueble-select";
+  nuevoSelect.name = "inmueble";
+  nuevoSelect.required = true;
+
+  nuevoSelect.innerHTML = `
+    <option disabled selected>Seleccionar inmueble</option>
+    <option value="inmueble1">Casa - Mitre 123</option>
+    <option value="inmueble2">Departamento - Belgrano 456</option>
+    <option value="inmueble3">Local - Sarmiento 789</option>
+  `;
+
+  const eliminar = document.createElement("button");
+  eliminar.type = "button";
+  eliminar.textContent = "❌";
+  eliminar.className = "btn-eliminar-inmueble";
+  eliminar.onclick = () => wrapper.remove();
+
+  wrapper.appendChild(nuevoSelect);
+  wrapper.appendChild(eliminar);
+  container.appendChild(wrapper);
 });
 
 
 
-document.getElementById("rol-modificar").addEventListener("change", function () {
-    const rol = this.value;
-    const campo = document.getElementById("campo-inmueble-modificar");
-  
-    if (rol === "propietario" || rol === "inquilino") {
-      campo.style.display = "block";
-      document.querySelectorAll("#inmuebles-container-modificar input").forEach(i => i.required = true);
-    } else {
-      campo.style.display = "none";
-      document.querySelectorAll("#inmuebles-container-modificar input").forEach(i => i.required = false);
-    }
-  });
-  
-  document.getElementById("agregar-inmueble-btn-modificar").addEventListener("click", function () {
-    const container = document.getElementById("inmuebles-container-modificar");
-  
-    const wrapper = document.createElement("div");
-    wrapper.className = "inmueble-wrapper";
-  
-    const input = document.createElement("input");
-    input.type = "text";
-    input.className = "inmueble-input";
-    input.name = "inmueble";
-    input.required = true;
-  
-    const eliminar = document.createElement("button");
-    eliminar.type = "button";
-    eliminar.textContent = "❌";
-    eliminar.className = "btn-eliminar-inmueble";
-    eliminar.onclick = () => wrapper.remove();
-  
-    wrapper.appendChild(input);
-    wrapper.appendChild(eliminar);
-    container.appendChild(wrapper);
-  });
-  
   
 
 
