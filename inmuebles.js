@@ -3,6 +3,24 @@ let idInmuebleAEliminar = null;
 
 // === ( Funciones de logica ) ===
 
+function limpiarFormularioInmueble() {
+    document.getElementById("titulo").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("ciudad").value = "";
+    document.getElementById("barrio").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("calle").value = "";
+    document.getElementById("altura").value = "";
+    document.getElementById("dormitorios").value = "";
+    document.getElementById("banios").value = "";
+    document.getElementById("superficie").value = "";
+    document.getElementById("precio").value = "";
+    document.getElementById("tipoInmueble").value = "";
+    document.getElementById("operacion").value = "";
+}
+
+
+
 // Funcion para visualizar lista de inmuebles
     function abrirModalVisualizarInmueble(id) {
     fetch(`http://localhost:8080/inmobiliaria/${parseInt(id)}`)
@@ -220,6 +238,7 @@ document.addEventListener('DOMContentLoaded', function (){
             dormitorios: document.getElementById("dormitorios").value,
             banios: document.getElementById("banios").value,
             superficie: document.getElementById("superficie").value,
+            precio: document.getElementById("precio").value,
             tipoInmueble: document.getElementById("tipoInmueble").value,
             operacion: document.getElementById("operacion").value
         };
@@ -238,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function (){
         .then(data => {
             console.log("Inmueble registrado:", data);
             cerrarModal("modal-registrar");
+            limpiarFormularioInmueble();
             cargarInmuebles(); // recargar tabla
         })
         .catch(error => {
