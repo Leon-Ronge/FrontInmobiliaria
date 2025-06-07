@@ -2,7 +2,8 @@
 let idUsuarioAEliminar = null;
 // === FUNCIONES ===
 
-/// Mostrar campo de inmueble si el rol es propietario o inquilino
+
+// Mostrar campo de inmueble si el rol es propietario o inquilino
 document.getElementById("rol").addEventListener("change", function () {
   const rol = this.value;
   const campo = document.getElementById("campo-inmueble-registrar");
@@ -90,8 +91,6 @@ document.getElementById("agregar-inmueble-btn-modificar").addEventListener("clic
   wrapper.appendChild(eliminar);
   container.appendChild(wrapper);
 });
-
-
 
   
 
