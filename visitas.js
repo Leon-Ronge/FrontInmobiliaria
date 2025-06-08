@@ -1,5 +1,5 @@
 //agregar slect en registrar visita
-let contadorInmueblesVisita = 1;
+/*let contadorInmueblesVisita = 1;
 
 document.getElementById("agregar-inmueble-btn-visita").addEventListener("click", function () {
   contadorInmueblesVisita++;
@@ -61,13 +61,15 @@ document.getElementById("agregar-inmueble-btn-visita-modificar").addEventListene
     wrapper.appendChild(nuevoSelect);
     wrapper.appendChild(eliminarBtn);
     container.appendChild(wrapper);
-  });
-  
-
-
+});*/
 
 
 let idVisitaAEliminar = null;
+
+function abrirModalRegistrarVisita() {
+    document.getElementById('modal-registrar-visita').style.display = 'block';
+    cargarInmueblesParaVisita(); // ya definida, carga el combo de inmuebles
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     cargarVisitas();
@@ -75,6 +77,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("btnregistrarvisita")?.addEventListener("click", () => {
         document.getElementById('modal-registrar-visita').style.display = 'block';
         cargarInmueblesParaVisita();
+    });
+
+    document.getElementById("botonemitirlistadovisitas").addEventListener("click", () => {
+        window.open("http://localhost:8080/visita/pdf", "_blank");
     });
 
     document.getElementById("boton-limpiar-visita")?.addEventListener("click", (e) => {
@@ -105,8 +111,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(r => r.json())
             .then(() => {
                 cerrarModal("modal-registrar-visita");
-                limpiarFormularioVisita();
+                console.log("Enviando visita:", visita);
                 cargarVisitas();
+                limpiarFormularioVisita();
             })
             .catch(error => {
                 console.error("Error al registrar visita:", error);
@@ -127,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
             fecha: document.getElementById("fechaModificar").value,
             hora: document.getElementById("horaModificar").value,
             inmueble: {
-                id: parseInt(document.getElementById("inmuebleModificar").value)
+                id: parseInt(document.getElementById("inmueble-modificar-visita").value)
             }
         };
 
@@ -167,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function cargarVisitas() {
     fetch("http://localhost:8080/visita/consultar")
-        .then(r => r.json())
+        .then(response => response.json())
         .then(visitas => {
             const tabla = document.getElementById("tabla-resumida-visitas");
             tabla.innerHTML = "";
@@ -211,8 +218,27 @@ function abrirModalVisualizarVisita(id) {
 }
 
 function abrirModalModificarVisita(id) {
-    fetch(`http://localhost:8080/visita/consultar/${id}`)
-        .then(r => r.json())
+    const select = document.getElementById("inmueble-modificar-visita");
+
+    // Primero cargamos los inmuebles
+    fetch("http://localhost:8080/inmobiliaria/listar")
+        .then(response => response.json())
+        .then(inmuebles => {
+            // Limpiamos el select
+            select.innerHTML = '<option disabled selected>Seleccionar inmueble</option>';
+
+            // Agregamos opciones
+            inmuebles.forEach(inmueble => {
+                const option = document.createElement("option");
+                option.value = inmueble.id;
+                option.textContent = inmueble.titulo;
+                select.appendChild(option);
+            });
+
+            // Luego de poblar el select, cargamos la visita
+            return fetch(`http://localhost:8080/visita/consultar/${id}`);
+        })
+        .then(response => response.json())
         .then(visita => {
             document.getElementById("nombreModificar").value = visita.nombre;
             document.getElementById("apellidoModificar").value = visita.apellido;
@@ -220,16 +246,21 @@ function abrirModalModificarVisita(id) {
             document.getElementById("telefonoModificar").value = visita.telefono;
             document.getElementById("fechaModificar").value = visita.fecha;
             document.getElementById("horaModificar").value = visita.hora;
-            document.getElementById("inmuebleModificar").value = visita.inmueble.id;
 
+            // Asignar el inmueble en el select
+            document.getElementById("inmueble-modificar-visita").value = visita.inmueble.id;
+
+            // Abrir el modal
             const formulario = document.getElementById("modificarVisitaForm");
             formulario.setAttribute("data-id", id);
             document.getElementById("modal-modificar-visita").style.display = "block";
         })
         .catch(error => {
-            console.error("Error al cargar visita para modificar:", error);
+            console.error("Error al abrir modal de modificar visita:", error);
+            alert("No se pudo cargar la visita.");
         });
 }
+
 
 function eliminarVisita(id) {
     idVisitaAEliminar = id;

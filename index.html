@@ -59,26 +59,26 @@
               <th>Altura</th>
               <th>Barrio</th>
               <th>Superficie</th>
-              <th>Condición</th>
+              <th>Operación</th>
               <th>Precio</th>
               <th>Acción</th>
             </tr>
           </thead>
           <tbody id="tabla-resumida-inmuebles">
-            <!-- <tr>
-              <td>Casa Moderna</td>
+            <tr>
+              <td>Casa Moderna en barrio las flores</td>
               <td>Av. Siempre Viva</td>
               <td>742</td>
               <td>Springfield</td>
               <td>120 m²</td>
-              <td>Nuevo</td>
+              <td>Venta</td>
               <td>$150,000</td>
               <td>
                 <button title="Ver"><img src="svg/Ojo.svg" alt="Ver" width="18"></button>
                 <button title="Editar"><img src="svg/Lapiz.svg" alt="Editar" width="18"></button>
                 <button title="Eliminar"><img src="svg/Tacho.svg" alt="Eliminar" width="18"></button>
               </td>
-            </tr> -->
+            </tr>
           </tbody>
         </table>
       </div>
@@ -336,15 +336,15 @@
               <label>Inmueble <span id="obligatorio">*</span></label>
               <div id="inmuebles-container-visita">
                 <div class="inmueble-wrapper">
-                  <select class="inmueble-select" name="inmueble" required>
+                  <select id="inmueble-registrar-visita" class="inmueble-select" name="inmueble" required>
                     <option disabled selected>Seleccionar inmueble</option>
-                    <option>(inmueble)</option>
+                    <option></option>
                   </select>
                 </div>
               </div>
-              <button type="button" class="btn-agregar-inmueble" id="agregar-inmueble-btn-visita">
+              <!--  <button type="button" class="btn-agregar-inmueble" id="agregar-inmueble-btn-visita">
                 + Agregar otro inmueble
-              </button>
+              </button>-->
             </div>
 
             <div id="correrbotones" style="margin-top: 20px; display: flex; gap: 10px;">
@@ -379,21 +379,21 @@
             <input type="date" id="fechaModificar" required>
 
             <label>Hora <span id="obligatorio">*</span></label>
-            <input type="tima" id="horaModificar" required>
+            <input type="time" id="horaModificar" required>
 
             <div id="campo-inmueble-visita-modificar">
               <label>Inmueble <span id="obligatorio">*</span></label>
               <div id="inmuebles-container-visita-modificar">
                 <div class="inmueble-wrapper">
-                  <select class="inmueble-select" name="inmueble" required>
+                  <select id="inmueble-modificar-visita" class="inmueble-select" name="inmueble" required>
                     <option disabled selected>Seleccionar inmueble</option>
-                    <option>(inmueble)</option>
+                    <option></option>
                   </select>
                 </div>
               </div>
-              <button type="button" class="btn-agregar-inmueble" id="agregar-inmueble-btn-visita-modificar">
+              <!--<button type="button" class="btn-agregar-inmueble" id="agregar-inmueble-btn-visita-modificar">
                 + Agregar otro inmueble
-              </button>
+              </button>-->
             </div>
             
             <div id="correrbotones" style="margin-top: 20px; display: flex; gap: 10px;">

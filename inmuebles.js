@@ -38,7 +38,6 @@ function limpiarFormularioInmueble() {
             document.getElementById("visualizarBanios").innerText = inmueble.banios || "";
             document.getElementById("visualizarDormitorios").innerText = inmueble.dormitorios || "";
             document.getElementById("visualizarDescripcion").innerText = inmueble.descripcion || "";
-            document.getElementById("visualizarAntiguedad").innerText = inmueble.antiguedad ? `${inmueble.antiguedad} años` : "";
 
             const imgElement = document.getElementById("visualizarImagen");
             imgElement.src = inmueble.imagenPrincipal || "img/default.jpg";
@@ -79,20 +78,18 @@ function cargarInmuebles() {
                     <td>${inmueble.calle}</td>
                     <td>${inmueble.altura}</td>
                     <td>${inmueble.barrio}</td>
-                    <td>${inmueble.piso}</td>
                     <td>${inmueble.superficie} m²</td>
                     <td>${inmueble.operacion}</td>
-                    <td>${inmueble.disponible ? "Sí" : "No"}</td>
                     <td>$${inmueble.precio}</td>
                     <td>
                         <button class="btn-visualizar-inmueble" data-id="${inmueble.id}">
-                            <img src="svg/Ojo.svg" alt="Visualizar" width="24" height="24">
+                            <img src="svg/Ojo.svg" alt="Visualizar" width="18">
                         </button>
                         <button class="btn-modificar-inmueble" data-id="${inmueble.id}">
-                            <img src="svg/Lapiz.svg" alt="Modificar" width="24" height="24">
+                            <img src="svg/Lapiz.svg" alt="Modificar"width="18">
                         </button>
                         <button class="btn-eliminar-inmueble" data-id="${inmueble.id}">
-                            <img src="svg/Tacho.svg" alt="Eliminar" width="24" height="24">
+                            <img src="svg/Tacho.svg" alt="Eliminar" width="18">
                         </button>   
                     </td>
                 `;
@@ -140,8 +137,7 @@ function cargarInmuebles() {
             document.getElementById("visualizarBanios").innerText = inmueble.banios || "";
             document.getElementById("visualizarDormitorios").innerText = inmueble.dormitorios || "";
             document.getElementById("visualizarDescripcion").innerText = inmueble.descripcion || "";
-            document.getElementById("visualizarAntiguedad").innerText = inmueble.antiguedad ? `${inmueble.antiguedad} años` : "";
-
+            
             const imgElement = document.getElementById("visualizarImagen");
             imgElement.src = inmueble.imagenPrincipal || "img/default.jpg";
 
@@ -180,6 +176,7 @@ function cargarInmuebles() {
                 document.getElementById("modificar-dormitorios").value = inmueble.dormitorios || "";
                 document.getElementById("modificar-banios").value = inmueble.banios || "";
                 document.getElementById("modificar-superficie").value = inmueble.superficie || "";
+                document.getElementById("modificar-precio").value = inmueble.precio || "";
                 document.getElementById("modificar-tipoInmueble").value = inmueble.tipoInmueble || "";
                 document.getElementById("modificar-operacion").value = inmueble.operacion || "";
 
