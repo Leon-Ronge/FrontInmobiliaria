@@ -43,24 +43,36 @@
 
   <script>
     function iniciarSesion() {
-      const usuario = document.getElementById('usuario').value;
-      const contrasena = document.getElementById('contrasena').value;
+        const usuario = document.getElementById('usuario').value;
+        const contrasena = document.getElementById('contrasena').value;
 
-      const usuarioCorrecto = 'admin';
-      const contrasenaCorrecta = '1234';
+        const usuarioCorrecto = 'admin';
+        const contrasenaCorrecta = '1234';
 
-      if (usuario === usuarioCorrecto && contrasena === contrasenaCorrecta) {
-        const loginBox = document.getElementById('loginBox');
-        loginBox.classList.add('slide-out');
+        if (usuario === usuarioCorrecto && contrasena === contrasenaCorrecta) {
+            const loginBox = document.getElementById('loginBox');
+            loginBox.classList.add('slide-out');
 
-        // Redirigir tras la animación
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 500);
-      } else {
-        alert('Usuario o contraseña incorrectos');
-      }
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        } else {
+            alert('Usuario o contraseña incorrectos');
+        }
     }
-  </script>
+
+    // Add event listeners for Enter key
+    document.getElementById('usuario').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            iniciarSesion();
+        }
+    });
+
+    document.getElementById('contrasena').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            iniciarSesion();
+        }
+    });
+</script>
 </body>
 </html>
