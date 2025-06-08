@@ -104,7 +104,6 @@ function hacerDraggable(elmnt) {
 
 
 ////////////////           Hora y calendario           /////////////
-
 function actualizarHora() {
   const reloj = document.getElementById('clock');
   const ahora = new Date();
@@ -234,8 +233,10 @@ function mostrarVentas() {
 ////////////////                         Windload                                //////////////////////
 
 window.onload = function () {
-  actualizarHora();
   generarCalendario();
+
+  actualizarHora(); // Actualiza la hora al cargar
+  setInterval(actualizarHora, 1000); // Actualiza cada segundo
 
   const modal = document.getElementById('modal-registrar');
   const btn = document.getElementById('btn-registrar');
@@ -243,5 +244,4 @@ window.onload = function () {
   const modalVisita = document.getElementById("modal-registrar-visita");
   
   const spans = document.querySelectorAll('.cerrar-modal');
-
 }
