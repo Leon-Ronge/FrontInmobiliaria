@@ -235,8 +235,8 @@ function mostrarVentas() {
 window.onload = function () {
   generarCalendario();
 
-  actualizarHora(); // Actualiza la hora al cargar
-  setInterval(actualizarHora, 1000); // Actualiza cada segundo
+  actualizarHora(); 
+  setInterval(actualizarHora, 1000); 
 
   const modal = document.getElementById('modal-registrar');
   const btn = document.getElementById('btn-registrar');
