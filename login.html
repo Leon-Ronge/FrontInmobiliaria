@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    @keyframes slideOutToLeft {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    }
+
+    .slide-out {
+      animation: slideOutToLeft 0.3s ease forwards;
+    }
+  </style>
+</head>
+
+<body class="login-page">
+  <div class="login-box" id="loginBox">
+    <div class="login-logo">
+      <img src="img/Group 25.png" alt="LogoMiservicio" />
+    </div>
+    <div class="login-input">
+      <i class="fa fa-user"></i>
+      <input type="text" id="usuario" placeholder="Usuario" />
+    </div>
+    <div class="login-input">
+      <i class="fa fa-lock"></i>
+      <input type="password" id="contrasena" placeholder="Contraseña" />
+    </div>
+    <a class="forgot-password" href="#">Olvidó su contraseña?</a>
+    <button class="login-button" onclick="iniciarSesion()">Ingresar</button>
+  </div>
+
+  <script>
+    function iniciarSesion() {
+        const usuario = document.getElementById('usuario').value;
+        const contrasena = document.getElementById('contrasena').value;
+
+        const usuarioCorrecto = 'admin';
+        const contrasenaCorrecta = '1234';
+
+        if (usuario === usuarioCorrecto && contrasena === contrasenaCorrecta) {
+            const loginBox = document.getElementById('loginBox');
+            loginBox.classList.add('slide-out');
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        } else {
+            alert('Usuario o contraseña incorrectos');
+        }
+    }
+
+    // Add event listeners for Enter key
+    document.getElementById('usuario').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            iniciarSesion();
+        }
+    });
+
+    document.getElementById('contrasena').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            iniciarSesion();
+        }
+    });
+</script>
+</body>
+</html>
