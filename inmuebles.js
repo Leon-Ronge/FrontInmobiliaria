@@ -3,15 +3,7 @@
 
 // // === ( Funciones de logica ) ===
 
-function abrirModalregistrarinmueble() {
-  const modal = document.getElementById("modal-registrar")
-  if (modal) {
-    modal.style.display = "block";
-  }
-}
-
-
-
+/*
 const toggleInmuebles = document.getElementById('toggleFiltroInmuebles');
 const dropdownInmuebles = document.getElementById('filtroDropdownInmuebles');
 
@@ -38,362 +30,333 @@ function aplicarFiltroInmuebles() {
     "Baños: " + document.getElementById('banos').value);
 
   dropdownInmuebles.style.display = 'none';
+}*/
+
+function abrirModalregistrarinmueble() {
+  const modal = document.getElementById("modal-registrar")
+  if (modal) {
+    modal.style.display = "block";
+  }
 }
 
+// VARIABLES GLOBALES
+let idInmuebleAEliminar = null;
 
-// function limpiarFormularioInmueble() {
-//     document.getElementById("titulo").value = "";
-//     document.getElementById("descripcion").value = "";
-//     document.getElementById("ciudad").value = "";
-//     document.getElementById("barrio").value = "";
-//     document.getElementById("email").value = "";
-//     document.getElementById("calle").value = "";
-//     document.getElementById("altura").value = "";
-//     document.getElementById("dormitorios").value = "";
-//     document.getElementById("banios").value = "";
-//     document.getElementById("superficie").value = "";
-//     document.getElementById("precio").value = "";
-//     document.getElementById("tipoInmueble").value = "";
-//     document.getElementById("operacion").value = "";
-// }
+// === Lógica ===
 
+function limpiarFormularioInmueble() {
+  document.getElementById("titulo").value = "";
+  document.getElementById("descripcion-registro-inmueble").value = "";
+  document.getElementById("ciudad").value = "";
+  document.getElementById("barrio").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("calle").value = "";
+  document.getElementById("altura").value = "";
+  document.getElementById("dormitorios").value = "";
+  document.getElementById("banios").value = "";
+  document.getElementById("superficie").value = "";
+  document.getElementById("precio").value = "";
+  document.getElementById("tipoInmueble").value = "";
+  document.getElementById("operacion").value = "";
+}
 
+function abrirModalRegistrar() {
+  const modal = document.getElementById("modal-registrar");
+  if (modal) modal.style.display = "block";
+}
 
-// // Funcion para visualizar lista de inmuebles
-// function abrirModalVisualizarInmueble(id) {
-//     fetch(`http://localhost:8080/inmobiliaria/${parseInt(id)}`)
-//         .then(response => response.json())
-//         .then(inmueble => {
-//             document.getElementById("visualizarTitulo").innerText = inmueble.titulo || "";
-//             document.getElementById("visualizarCalle").innerText = inmueble.calle || "";
-//             document.getElementById("visualizarAltura").innerText = inmueble.altura || "";
-//             document.getElementById("visualizarBarrio").innerText = inmueble.barrio || "";
-//             document.getElementById("visualizarCiudad").innerText = inmueble.ciudad || "";
-//             document.getElementById("visualizarPiso").innerText = inmueble.piso || "";
-//             document.getElementById("visualizarSuperficie").innerText = inmueble.superficie || "";
-//             document.getElementById("visualizarTipoInmueble").innerText = inmueble.tipoInmueble || "";
-//             document.getElementById("visualizarPrecio").innerText = inmueble.precio || "";
-//             document.getElementById("visualizarBanios").innerText = inmueble.banios || "";
-//             document.getElementById("visualizarDormitorios").innerText = inmueble.dormitorios || "";
-//             document.getElementById("visualizarDescripcion").innerText = inmueble.descripcion || "";
+function abrirModalVisualizarInmueble(id) {
+  const usua = "admin";
+  const password = "servicio1234";
+  const credenciales = btoa(usua + ":" + password);
+  fetch(`http://localhost:8080/inmobiliaria/${parseInt(id)}`,{
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
+    .then(response => response.json())
+    .then(inmueble => {
+      document.getElementById("visualizarTitulo").innerText = inmueble.titulo || "";
+      document.getElementById("visualizarCalle").innerText = inmueble.calle || "";
+      document.getElementById("visualizarAltura").innerText = inmueble.altura || "";
+      document.getElementById("visualizarBarrio").innerText = inmueble.barrio || "";
+      document.getElementById("visualizarCiudad").innerText = inmueble.ciudad || "";
+      document.getElementById("visualizarPiso").innerText = inmueble.piso || "";
+      document.getElementById("visualizarSuperficie").innerText = inmueble.superficie || "";
+      document.getElementById("visualizarTipoInmueble").innerText = inmueble.tipoInmueble || "";
+      document.getElementById("visualizarPrecio").innerText = inmueble.precio || "";
+      document.getElementById("visualizarBanios").innerText = inmueble.banios || "";
+      document.getElementById("visualizarDormitorios").innerText = inmueble.dormitorios || "";
+      document.getElementById("visualizarDescripcion").innerText = inmueble.descripcion || "";
 
-//             const imgElement = document.getElementById("visualizarImagen");
-//             imgElement.src = inmueble.imagenPrincipal || "img/default.jpg";
+      const img = document.getElementById("visualizarImagen");
+      img.src = inmueble.imagenPrincipal || "img/default.jpg";
 
-//             const ul = document.getElementById("visualizarCaracteristicas");
-//             ul.innerHTML = "";
-//             if (Array.isArray(inmueble.caracteristicas)) {
-//                 inmueble.caracteristicas.forEach(caracteristica => {
-//                     const li = document.createElement("li");
-//                     li.innerText = caracteristica;
-//                     ul.appendChild(li);
-//                 });
-//             }
+      const ul = document.getElementById("visualizarCaracteristicas");
+      ul.innerHTML = "";
+      if (Array.isArray(inmueble.caracteristicas)) {
+        inmueble.caracteristicas.forEach(c => {
+          const li = document.createElement("li");
+          li.innerText = c;
+          ul.appendChild(li);
+        });
+      }
 
-//             document.getElementById('visualizarModal').style.display = 'block';
-//         })
-//         .catch(error => {
-//             console.error("Error al visualizar inmueble:", error);
-//             alert("No se pudo cargar el inmueble.");
-//         });
-// }
+      document.getElementById("visualizarModal").style.display = "block";
+    })
+    .catch(error => {
+      console.error("Error al visualizar inmueble:", error);
+      alert("No se pudo cargar el inmueble.");
+    });
+}
 
+function abrirModalModificarInmueble(id) {
+  const usua = "admin";
+  const password = "servicio1234";
+  const credenciales = btoa(usua + ":" + password);
+  fetch(`http://localhost:8080/inmobiliaria/${id}`, {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
+    .then(response => response.json())
+    .then(inmueble => {
+      const modal = document.getElementById("modal-modificar");
+      if (!modal) return;
 
-// // Funcion para cargar inmuebles.
-// function cargarInmuebles() {
-//     fetch("http://localhost:8080/inmobiliaria/listar")
-//         .then(response => response.json())
-//         .then(inmuebles => {
-//             console.log("Datos recibidos del backend: ", inmuebles);
-//             const tabla = document.getElementById("tabla-resumida-inmuebles");
-//             tabla.innerHTML = "";
+      document.getElementById("modificar-titulo").value = inmueble.titulo || "";
+      document.getElementById("modificar-descripcion").value = inmueble.descripcion || "";
+      document.getElementById("modificar-ciudad").value = inmueble.ciudad || "";
+      document.getElementById("modificar-barrio").value = inmueble.barrio || "";
+      document.getElementById("modificar-calle").value = inmueble.calle || "";
+      document.getElementById("modificar-altura").value = inmueble.altura || "";
+      document.getElementById("modificar-dormitorios").value = inmueble.dormitorios || "";
+      document.getElementById("modificar-banios").value = inmueble.banios || "";
+      document.getElementById("modificar-superficie").value = inmueble.superficie || "";
+      document.getElementById("modificar-precio").value = inmueble.precio || "";
+      document.getElementById("modificar-tipoInmueble").value = inmueble.tipoInmueble || "";
+      document.getElementById("modificar-operacion").value = inmueble.operacion || "";
 
-//             inmuebles.forEach(inmueble => {
-//                 const fila = document.createElement("tr");
+      const form = document.getElementById("form-modificar-inmueble");
+      form.setAttribute("data-id", id);
 
-//                 fila.innerHTML = `
-//                     <td>${inmueble.titulo || "Sin descripción"}</td>
-//                     <td>${inmueble.calle}</td>
-//                     <td>${inmueble.altura}</td>
-//                     <td>${inmueble.barrio}</td>
-//                     <td>${inmueble.superficie} m²</td>
-//                     <td>${inmueble.operacion}</td>
-//                     <td>$${inmueble.precio}</td>
-//                     <td>
-//   <div class="acciones-inmueble">
-//     <button class="btn-visualizar-inmueble" data-id="${inmueble.id}">
-//       <img src="svg/Ojo.svg" alt="Visualizar" width="18">
-//     </button>
-//     <button class="btn-modificar-inmueble" data-id="${inmueble.id}">
-//       <img src="svg/Lapiz.svg" alt="Modificar" width="18">
-//     </button>
-//     <button class="btn-eliminar-inmueble" data-id="${inmueble.id}">
-//       <img src="svg/Tacho.svg" alt="Eliminar" width="18">
-//     </button>
-//   </div>
-// </td>
+      modal.style.display = "block";
+    })
+    .catch(error => {
+      console.error("Error al cargar inmueble para modificar:", error);
+    });
+}
 
-//                 `;
+function eliminarInmueble(id) {
+  idInmuebleAEliminar = id;
+  const modal = document.getElementById("modal-confirmacion-eliminar");
+  if (modal) modal.style.display = "block";
+}
 
-//                 // Visualizar inmueble
-//                 fila.querySelector('.btn-visualizar-inmueble').addEventListener('click', function () {
-//                     const id = this.getAttribute('data-id');
-//                     abrirModalVisualizarInmueble(id);
-//                 });
+function cargarInmuebles() {
+  const usuario = "admin";
+  const password = "servicio1234";
+  const credenciales = btoa(usuario + ":" + password);
+  fetch("http://localhost:8080/inmobiliaria/listar", {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('HTTP error ' + response.status);
+      }
+      return response.text();  // Obtenemos como texto para ver qué devuelve realmente
+    })
+    .then(text => {
+      console.log("Respuesta cruda:", text);
+      if (!text) {
+        throw new Error('Respuesta vacía');
+      }
+      const inmuebles = JSON.parse(text); // Parseamos manualmente para detectar mejor error
+      return inmuebles;
+    })
+    .then(inmuebles => {
+      const tabla = document.getElementById("tabla-resumida-inmuebles");
+      tabla.innerHTML = "";
 
-//                 // Modificar inmueble
-//                 fila.querySelector('.btn-modificar-inmueble').addEventListener('click', function () {
-//                     const id = this.getAttribute('data-id');
-//                     abrirModalModificarInmueble(id);
-//                 });
+      inmuebles.forEach(inmueble => {
+        // resto del código igual
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+                    <td>${inmueble.titulo || "Sin descripción"}</td>
+                    <td>${inmueble.calle}</td>
+                    <td>${inmueble.altura}</td>
+                    <td>${inmueble.barrio}</td>
+                    <td>${inmueble.superficie} m²</td>
+                    <td>${inmueble.operacion}</td>
+                    <td>$${inmueble.precio}</td>
+                    <td>
+                        <div class="acciones-inmueble">
+                            <button class="btn-visualizar-inmueble" data-id="${inmueble.id}">
+                                <img src="svg/Ojo.svg" width="18">
+                            </button>
+                            <button class="btn-modificar-inmueble" data-id="${inmueble.id}">
+                                <img src="svg/Lapiz.svg" width="18">
+                            </button>
+                            <button class="btn-eliminar-inmueble" data-id="${inmueble.id}">
+                                <img src="svg/Tacho.svg" width="18">
+                            </button>
+                        </div>
+                    </td>
+                `;
 
-//                 // Eliminar inmueble
-//                 fila.querySelector('.btn-eliminar-inmueble').addEventListener('click', function () {
-//                     const id = this.getAttribute('data-id');
-//                     eliminarInmueble(id);
-//                 });
+        fila.querySelector(".btn-visualizar-inmueble").addEventListener("click", () => {
+          abrirModalVisualizarInmueble(inmueble.id);
+        });
 
-//                 tabla.appendChild(fila);
-//             });
-//         })
-//         .catch(error => {
-//             console.error("Error al cargar los inmuebles:", error);
-//         });
-// }
+        fila.querySelector(".btn-modificar-inmueble").addEventListener("click", () => {
+          abrirModalModificarInmueble(inmueble.id);
+        });
 
-// // Funcion que abre modal para visualizar un inmueble
-// function abrirModalVisualizarInmueble(id) {
-//     fetch(`http://localhost:8080/inmobiliaria/${parseInt(id)}`)
-//         .then(response => response.json())
-//         .then(inmueble => {
-//             document.getElementById("visualizarTitulo").innerText = inmueble.titulo || "";
-//             document.getElementById("visualizarCalle").innerText = inmueble.calle || "";
-//             document.getElementById("visualizarAltura").innerText = inmueble.altura || "";
-//             document.getElementById("visualizarBarrio").innerText = inmueble.barrio || "";
-//             document.getElementById("visualizarCiudad").innerText = inmueble.ciudad || "";
-//             document.getElementById("visualizarPiso").innerText = inmueble.piso || "";
-//             document.getElementById("visualizarSuperficie").innerText = inmueble.superficie || "";
-//             document.getElementById("visualizarTipoInmueble").innerText = inmueble.tipoInmueble || "";
-//             document.getElementById("visualizarPrecio").innerText = inmueble.precio || "";
-//             document.getElementById("visualizarBanios").innerText = inmueble.banios || "";
-//             document.getElementById("visualizarDormitorios").innerText = inmueble.dormitorios || "";
-//             document.getElementById("visualizarDescripcion").innerText = inmueble.descripcion || "";
+        fila.querySelector(".btn-eliminar-inmueble").addEventListener("click", () => {
+          eliminarInmueble(inmueble.id);
+        });
 
-//             const imgElement = document.getElementById("visualizarImagen");
-//             imgElement.src = inmueble.imagenPrincipal || "img/default.jpg";
+        tabla.appendChild(fila);
+      });
+    })
+    .catch(error => {
+      console.error("Error al cargar inmuebles:", error);
+    });
+}
 
-//             const ul = document.getElementById("visualizarCaracteristicas");
-//             ul.innerHTML = "";
-//             if (Array.isArray(inmueble.caracteristicas)) {
-//                 inmueble.caracteristicas.forEach(caracteristica => {
-//                     const li = document.createElement("li");
-//                     li.innerText = caracteristica;
-//                     ul.appendChild(li);
-//                 });
-//             }
+document.addEventListener("DOMContentLoaded", function () {
+  cargarInmuebles();
 
-//             document.getElementById('visualizarModal').style.display = 'block';
-//         })
-//         .catch(error => {
-//             console.error("Error al visualizar inmueble:", error);
-//             alert("No se pudo cargar el inmueble.");
-//         });
-// }
+  const btnRegistrar = document.getElementById("btn-registrar-inmueble");
+  if (btnRegistrar) {
+    btnRegistrar.addEventListener("click", abrirModalRegistrar);
+  }
 
-// // Funcion que abre modal para modificar inmuebles
-// function abrirModalModificarInmueble(id) {
-//     fetch(`http://localhost:8080/inmobiliaria/${id}`)
-//         .then(response => response.json())
-//         .then(inmueble => {
-//             const modalModificar = document.getElementById('modal-modificar');
-//             if (modalModificar) {
-//                 // Precargar los valores del inmueble en los campos
-//                 document.getElementById("modificar-titulo").value = inmueble.titulo || "";
-//                 document.getElementById("modificar-descripcion").value = inmueble.descripcion || "";
-//                 document.getElementById("modificar-ciudad").value = inmueble.ciudad || "";
-//                 document.getElementById("modificar-barrio").value = inmueble.barrio || "";
-//                 document.getElementById("modificar-calle").value = inmueble.calle || "";
-//                 document.getElementById("modificar-altura").value = inmueble.altura || "";
-//                 document.getElementById("modificar-dormitorios").value = inmueble.dormitorios || "";
-//                 document.getElementById("modificar-banios").value = inmueble.banios || "";
-//                 document.getElementById("modificar-superficie").value = inmueble.superficie || "";
-//                 document.getElementById("modificar-precio").value = inmueble.precio || "";
-//                 document.getElementById("modificar-tipoInmueble").value = inmueble.tipoInmueble || "";
-//                 document.getElementById("modificar-operacion").value = inmueble.operacion || "";
+  const botonPDF = document.getElementById("botonemitirlistadoinmuebles");
+  if (botonPDF) {
+    botonPDF.addEventListener("click", () => {
+      window.open("http://localhost:8080/inmobiliaria/pdf-inmuebles", "_blank");
+    });
+  }
 
-//                 // Guardar el ID en el formulario (puede usarse luego para hacer PUT)
-//                 const formulario = document.getElementById("form-modificar-inmueble");
-//                 formulario.setAttribute("data-id", id);
+  const formRegistrar = document.getElementById("form-registrar-inmueble");
+  if (formRegistrar) {
+    formRegistrar.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-//                 modalModificar.style.display = "block";
-//             }
-//         })
-//         .catch(error => {
-//             console.error("Error al cargar el inmueble para modificar:", error);
-//         });
-// }
+      const inmueble = {
+        titulo: document.getElementById("titulo").value,
+        descripcion: document.getElementById("descripcion-registro-inmueble").value,
+        ciudad: document.getElementById("ciudad").value,
+        barrio: document.getElementById("barrio").value,
+        calle: document.getElementById("calle").value,
+        altura: document.getElementById("altura").value,
+        dormitorios: document.getElementById("dormitorios").value,
+        banios: document.getElementById("banios").value,
+        superficie: document.getElementById("superficie").value,
+        precio: document.getElementById("precio").value,
+        tipoInmueble: document.getElementById("tipoInmueble").value,
+        operacion: document.getElementById("operacion").value
+      };
+      const usua = "admin";
+      const password = "servicio1234";
+      const credenciales = btoa(usua + ":" + password);
+      fetch("http://localhost:8080/inmobiliaria/guardar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Basic " + credenciales
+        },
+        body: JSON.stringify(inmueble)
+      })
+        .then(res => {
+          if (!res.ok) throw new Error("Error al guardar");
+          return res.json();
+        })
+        .then(data => {
+          cerrarModal("modal-registrar");
+          limpiarFormularioInmueble();
+          cargarInmuebles();
+        })
+        .catch(error => {
+          console.error("Error al registrar:", error);
+          alert("Hubo un error al registrar el inmueble.");
+        });
+    });
+  }
 
-// // Funcion para eliminar inmueble
-// function eliminarInmueble(id) {
-//     idInmuebleAEliminar = id;
-//     const modal = document.getElementById('modal-confirmacion-eliminar');
-//     if (modal) {
-//         modal.style.display = 'block';
-//     }
-// }
+  const formModificar = document.getElementById("form-modificar-inmueble");
+  if (formModificar) {
+    formModificar.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const id = formModificar.getAttribute("data-id");
 
-// // Funcion que abre modal para registrar inmueble
-// function abrirModalRegistrar() {
-//     const modalRegistrar = document.getElementById('modal-registrar');
-//     if (modalRegistrar) {
-//         modalRegistrar.style.display = 'block';
-//     }
-// }
+      const datos = {
+        titulo: document.getElementById("modificar-titulo")?.value || "",
+        descripcion: document.getElementById("modificar-descripcion")?.value || "",
+        ciudad: document.getElementById("modificar-ciudad")?.value || "",
+        barrio: document.getElementById("modificar-barrio")?.value || "",
+        calle: document.getElementById("modificar-calle")?.value || "",
+        altura: document.getElementById("modificar-altura")?.value || "",
+        dormitorios: document.getElementById("modificar-dormitorios")?.value || "",
+        banios: document.getElementById("modificar-banios")?.value || "",
+        superficie: document.getElementById("modificar-superficie")?.value || "",
+        precio: document.getElementById("modificar-precio")?.value || "",
+        tipoInmueble: document.getElementById("modificar-tipoInmueble")?.value || "",
+        operacion: document.getElementById("modificar-operacion")?.value || ""
+      };
+      const usua = "admin";
+      const password = "servicio1234";
+      const credenciales = btoa(usua + ":" + password);
+      fetch(`http://localhost:8080/inmobiliaria/modificar/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Basic " + credenciales
+        },
+        body: JSON.stringify(datos)
+      })
+        .then(res => {
+          if (!res.ok) throw new Error("Error al modificar");
+          return res.json();
+        })
+        .then(() => {
+          cerrarModal("modal-modificar");
+          cargarInmuebles();
+        })
+        .catch(error => {
+          console.error("Error al modificar inmueble:", error);
+          alert("No se pudo modificar el inmueble.");
+        });
+    });
+  }
 
-
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     cargarInmuebles();
-
-//     const btnAbrirModalRegistrar = document.getElementById("btn-registrar-inmueble");
-//     if (btnAbrirModalRegistrar) {
-//         btnAbrirModalRegistrar.addEventListener("click", abrirModalRegistrar);
-//     }
-//     document.getElementById("botonemitirlistadoinmuebles").addEventListener("click", () => {
-//         window.open("http://localhost:8080/inmobiliaria/pdf-inmuebles", "_blank");
-//     });
-
-//     // registrar inmueble
-//     const formRegistrar = document.getElementById("form-registrar-inmueble");
-//     if (formRegistrar) {
-//         formRegistrar.addEventListener("submit", function (e) {
-//             e.preventDefault(); // evita recarga de la página
-
-//             const inmueble = {
-//                 titulo: document.getElementById("titulo").value,
-//                 descripcion: document.getElementById("descripcion").value,
-//                 ciudad: document.getElementById("ciudad").value,
-//                 barrio: document.getElementById("barrio").value,
-//                 calle: document.getElementById("calle").value,
-//                 altura: document.getElementById("altura").value,
-//                 dormitorios: document.getElementById("dormitorios").value,
-//                 banios: document.getElementById("banios").value,
-//                 superficie: document.getElementById("superficie").value,
-//                 precio: document.getElementById("precio").value,
-//                 tipoInmueble: document.getElementById("tipoInmueble").value,
-//                 operacion: document.getElementById("operacion").value
-//             };
-
-//             fetch("http://localhost:8080/inmobiliaria/guardar", {
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json"
-//                 },
-//                 body: JSON.stringify(inmueble)
-//             })
-//                 .then(response => {
-//                     if (!response.ok) throw new Error("Error al guardar el inmueble");
-//                     return response.json();
-//                 })
-//                 .then(data => {
-//                     console.log("Inmueble registrado:", data);
-//                     cerrarModal("modal-registrar");
-//                     limpiarFormularioInmueble();
-//                     cargarInmuebles(); // recargar tabla
-//                 })
-//                 .catch(error => {
-//                     console.error("Error al registrar el inmueble:", error);
-//                     alert("Hubo un error al registrar el inmueble.");
-//                 });
-//         });
-//     }
-
-//     // modificar inmueble
-//     const formModificar = document.getElementById("form-modificar-inmueble");
-//     formModificar.addEventListener("submit", function (e) {
-//         e.preventDefault(); // evitar recargar
-
-//         const id = formModificar.getAttribute("data-id");
-
-//         const datos = {
-//             titulo: document.getElementById("modificar-titulo").value,
-//             descripcion: document.getElementById("modificar-descripcion").value,
-//             ciudad: document.getElementById("modificar-ciudad").value,
-//             barrio: document.getElementById("modificar-barrio").value,
-//             calle: document.getElementById("modificar-calle").value,
-//             altura: document.getElementById("modificar-altura").value,
-//             dormitorios: document.getElementById("modificar-dormitorios").value,
-//             banios: document.getElementById("modificar-banios").value,
-//             superficie: document.getElementById("modificar-superficie").value,
-//             precio: document.getElementById("modificar-precio").value,
-//             tipoInmueble: document.getElementById("modificar-tipoInmueble").value,
-//             operacion: document.getElementById("modificar-operacion").value
-//         };
-
-//         fetch(`http://localhost:8080/inmobiliaria/modificar/${id}`, {
-//             method: "PUT",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(datos)
-//         })
-//             .then(response => {
-//                 if (!response.ok) throw new Error("Error al modificar el inmueble");
-//                 return response.json();
-//             })
-//             .then(() => {
-//                 cerrarModal("modal-modificar");
-//                 cargarInmuebles(); // refrescar la tabla
-//             })
-//             .catch(error => {
-//                 console.error("Error al enviar la modificación:", error);
-//                 alert("No se pudo modificar el inmueble.");
-//             });
-//     });
-
-//     // botones dinamicos
-//     document.querySelectorAll('.btn-visualizar-inmueble').forEach(button => {
-//         button.addEventListener('click', function () {
-//             const id = this.getAttribute("data-id");
-//             abrirModalVisualizarInmueble(id);
-//         });
-//     });
-
-
-//     document.querySelectorAll('.btn-modificar-inmueble').forEach(button => {
-//         button.addEventListener('click', function () {
-//             const id = this.getAttribute("data-id");
-//             abrirModalModificarInmueble(id);
-//         });
-//     });
-
-
-//     // Botón de eliminar inmueble
-//     document.querySelectorAll('.btn-eliminar-inmueble').forEach(button => {
-//         button.addEventListener('click', abrirModalConfirmacionEliminar);
-//     });
-
-//     // confirmar eliminacion
-//     const btnConfirmarEliminarInmueble = document.getElementById('boton-confirmar-eliminar');
-//     if (btnConfirmarEliminarInmueble) {
-//         btnConfirmarEliminarInmueble.onclick = function () {
-//             if (idInmuebleAEliminar !== null) {
-//                 fetch(`http://localhost:8080/inmobiliaria/eliminar/${idInmuebleAEliminar}`, {
-//                     method: 'DELETE'
-//                 })
-//                     .then(response => {
-//                         if (!response.ok) throw new Error("Error al eliminar inmueble");
-//                         cerrarModal('modal-confirmacion-eliminar');
-//                         idInmuebleAEliminar = null;
-//                         cargarInmuebles(); // refrescar la tabla
-//                     })
-//                     .catch(error => {
-//                         console.error("Error al eliminar inmueble:", error);
-//                         alert("No se pudo eliminar el inmueble.");
-//                     });
-//             }
-//         };
-//     }
-
-// });
-
+  const btnEliminar = document.getElementById('boton-confirmar-eliminar');
+  if (btnEliminar) {
+    btnEliminar.onclick = function () {
+      if (idInmuebleAEliminar !== null) {
+        const usua = "admin";
+        const password = "servicio1234";
+        const credenciales = btoa(usua + ":" + password);
+        fetch(`http://localhost:8080/inmobiliaria/eliminar/${idInmuebleAEliminar}`, {
+          method: 'DELETE',
+          headers: {
+          "Authorization": "Basic " + credenciales
+        }
+        })
+          .then(res => {
+            if (!res.ok) throw new Error("Error al eliminar");
+            cerrarModal('modal-confirmacion-eliminar');
+            idInmuebleAEliminar = null;
+            cargarInmuebles();
+          })
+          .catch(error => {
+            console.error("Error al eliminar:", error);
+            alert("No se pudo eliminar el inmueble.");
+          });
+      }
+    };
+  }
+});

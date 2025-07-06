@@ -194,6 +194,7 @@ function mostrarInmuebles() {
   document.getElementById('visitasSection').style.display = 'none';
   document.getElementById('usuariosSection').style.display = 'none';
   document.getElementById('ventasSection').style.display = 'none';
+  cargarInmuebles();
 }
 
 function mostrarVisitas() {

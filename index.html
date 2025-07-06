@@ -129,20 +129,7 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-inmuebles">
-            <tr>
-              <td>Casa Moderna en barrio las flores</td>
-              <td>Av. Siempre Viva</td>
-              <td>742</td>
-              <td>Springfield</td>
-              <td>120 m²</td>
-              <td>Venta</td>
-              <td>$150,000</td>
-              <td>
-                <button title="Ver"><img src="svg/Ojo.svg" alt="Ver" width="18"></button>
-                <button title="Editar"><img src="svg/Lapiz.svg" alt="Editar" width="18"></button>
-                <button title="Eliminar"><img src="svg/Tacho.svg" alt="Eliminar" width="18"></button>
-              </td>
-            </tr>
+           
           </tbody>
         </table>
       </div>
@@ -424,25 +411,7 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-visitas">
-            <tr>
-              <td>2024-03-15</td>
-              <td>15:30</td>
-              <td>Juan Pérez</td>
-              <td>Casa Las Palmas</td>
-              <td>40123456</td>
-              <td>3515551234</td>
-              <td>
-                <button class="btn-modificar">
-                  <img src="svg/Lapiz.svg" onclick="abrirModalModificarVisita()" alt="Editar">
-                </button>
-                <button class="btn-eliminar">
-                  <img src="svg/Tacho.svg" onclick="abrirmodaleliminarvisita()" alt="Eliminar">
-                </button>
-                <button class="btn-visualizar">
-                  <img src="svg/Ojo.svg" onclick="abrirModalVisualizarVisita()" alt="Eliminar">
-                </button>
-              </td>
-            </tr>
+            
           </tbody>
         </table>
       </div>
@@ -566,9 +535,9 @@
           <div class="fila">
             <div class="col">
               <h3>Datos del visitante:</h3>
-              <p><strong>Nombre y Apellido:</strong></p>
-              <p><strong>Teléfono:</strong></p>
-              <p><strong>DNI:</strong></p>
+              <p id="visita-cliente"><strong>Nombre y Apellido:</strong></p>
+              <p id="visita-telefono"><strong>Teléfono:</strong></p>
+              <p id="visita-dni"><strong>DNI:</strong></p>
             </div>
             <div class="col">
               <h3>Datos del agente:</h3>
@@ -580,14 +549,14 @@
 
           <hr />
 
-          <div class="seccion">
+          <!-- <div class="seccion">
             <h3>Datos de la inmobiliaria</h3>
             <p><strong>Nombre:</strong> MI Servicio Inmobiliario</p>
             <p><strong>Teléfono:</strong> 3548262123</p>
             <p><strong>CPI:</strong> 5302</p>
             <p><strong>Dirección:</strong> Gral. Alvear 270</p>
             <p><strong>Mail:</strong> MIservicioinmobiliario@gmail</p>
-          </div>
+          </div> 
 
           <hr />
 
@@ -596,7 +565,7 @@
             <p><strong>Dirección:</strong></p>
             <p><strong>Operación:</strong></p>
             <p><strong>Tipo:</strong></p>
-          </div>
+          </div>-->
 
           <hr />
 
@@ -702,21 +671,7 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-usuarios">
-            <tr>
-              <td>María</td>
-              <td>González</td>
-              <td>33222444</td>
-              <td>351-1234567</td>
-              <td>maria.gonzalez@email.com</td>
-              <td>Administrador</td>
-              <td>Activo</td>
-              <td>
-                <button title="Ver"><img src="svg/Ojo.svg" alt="Ver" width="18"></button>
-                <button title="Editar" onclick="abrirModalModificarUsuario()"><img src="svg/Lapiz.svg" alt="Editar"
-                    width="18"></button>
-                <button title="Eliminar"><img src="svg/Tacho.svg" alt="Eliminar" width="18"></button>
-              </td>
-            </tr>
+            
 
           </tbody>
         </table>
@@ -957,21 +912,7 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-ventas">
-            <tr>
-              <td>Av. Siempre Viva 742</td>
-              <td>Juan Pérez</td>
-              <td>2025-06-17</td>
-              <td>$120.000</td>
-              <td>Finalizada</td>
-              <td>
-                <button title="Ver" onclick="abrirModalVisualizarVenta()"><img src="svg/Ojo.svg" alt="Ver"
-                    width="18"></button>
-                <button title="Editar" onclick="abrirModalModificarVenta()"><img src="svg/Lapiz.svg" alt="Editar"
-                    width="18"></button>
-                <button title="Eliminar"><img src="svg/Tacho.svg" alt="Eliminar" width="18"></button>
-              </td>
-            </tr>
-
+            
           </tbody>
         </table>
       </div>
@@ -1043,7 +984,7 @@
 
 
             <label for="descripcion-registro-venta">Observaciones <span id="obligatorio">*</span></label>
-            <textarea id="descripcion-registro-venta" required></textarea>
+            <textarea id="descripcion-registro-venta"></textarea>
 
 
             <!--<label>Agente <span id="obligatorio">*</span></label>
@@ -1124,7 +1065,7 @@
 
 
             <label for="descripcion-modificar-venta">Observaciones <span id="obligatorio">*</span></label>
-            <textarea id="descripcion-modificar-venta" required></textarea>
+            <textarea id="descripcion-modificar-venta"></textarea>
 
             <!--<label>Agente <span id="obligatorio">*</span></label>
             <select id="modificar-agente-venta">

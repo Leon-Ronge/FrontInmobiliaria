@@ -7,62 +7,69 @@ function mostrarVentas() {
 
   cargarVentas();
 }
-
-function abrirModalVisualizarVenta(){
+/*
+function abrirModalVisualizarVenta() {
   const modal = document.getElementById("modal-visualizar-venta")
-  if(modal){
-      modal.style.display = "block";
+  if (modal) {
+    modal.style.display = "block";
   }
 }
-
-function abrirModalRegistrarVenta(){
+*/
+function abrirModalRegistrarVenta() {
   const modal = document.getElementById("modal-registrar-venta")
-  if(modal){
-      modal.style.display = "block";
+  if (modal) {
+    modal.style.display = "block";
   }
-}
-function abrirModalModificarVenta(){
+}/*
+function abrirModalModificarVenta() {
   const modal = document.getElementById("modal-modificar-venta")
-  if(modal){
-      modal.style.display = "block";
+  if (modal) {
+    modal.style.display = "block";
   }
 }
-
+*/
 ///////
 
 const toggleBtn = document.getElementById('toggleFiltro');
-  const dropdown = document.getElementById('filtroDropdown');
+const dropdown = document.getElementById('filtroDropdown');
 
-  toggleBtn.addEventListener('click', () => {
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-  });
+toggleBtn.addEventListener('click', () => {
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
 
-  document.addEventListener('click', function (event) {
-    if (!event.target.closest('.dropdown-filtro')) {
-      dropdown.style.display = 'none';
-    }
-  });
+document.addEventListener('click', function (event) {
+  if (!event.target.closest('.dropdown-filtro')) {
+    dropdown.style.display = 'none';
+  }
+});
 
 /////////////
 
 function aplicarFiltroVenta() {
-    alert("Filtro aplicado con:\n" +
-      "Fecha desde: " + document.getElementById('fechaDesde').value + "\n" +
-      "Fecha hasta: " + document.getElementById('fechaHasta').value + "\n" +
-      "Precio desde: " + document.getElementById('precioDesde').value + "\n" +
-      "Precio hasta: " + document.getElementById('precioHasta').value + "\n" +
-      "Tipo de inmueble: " + document.getElementById('VentatipoInmueble').value + "\n" +
-      "Barrio: " + document.getElementById('Ventasbarrio').value);
-    
-    document.getElementById('filtroDropdown').style.display = 'none';
-  }
+  alert("Filtro aplicado con:\n" +
+    "Fecha desde: " + document.getElementById('fechaDesde').value + "\n" +
+    "Fecha hasta: " + document.getElementById('fechaHasta').value + "\n" +
+    "Precio desde: " + document.getElementById('precioDesde').value + "\n" +
+    "Precio hasta: " + document.getElementById('precioHasta').value + "\n" +
+    "Tipo de inmueble: " + document.getElementById('VentatipoInmueble').value + "\n" +
+    "Barrio: " + document.getElementById('Ventasbarrio').value);
+
+  document.getElementById('filtroDropdown').style.display = 'none';
+}
 
 
 let ventaIdActual = null;
 
 // Cargar ventas desde el backend
 function cargarVentas() {
-  fetch('http://localhost:8080/venta/listar')
+  const usuario = "admin";
+  const password = "servicio1234";
+  const credenciales = btoa(usuario + ":" + password);
+  fetch('http://localhost:8080/venta/listar', {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
     .then(response => response.json())
     .then(data => {
       const tbody = document.getElementById('tabla-resumida-ventas');
@@ -89,7 +96,14 @@ function cargarVentas() {
 
 // Cargar inmuebles
 function cargarInmueblesParaVenta(selectId = "inmueble-venta") {
-  fetch("http://localhost:8080/inmobiliaria/listar")
+  const usua = "admin";
+  const password = "servicio1234";
+  const credenciales = btoa(usua + ":" + password);
+  fetch("http://localhost:8080/inmobiliaria/listar", {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
     .then(response => response.json())
     .then(data => {
       const select = document.getElementById(selectId);
@@ -120,8 +134,14 @@ function abrirModalRegistrarVenta() {
 // Abrir modal de modificar y cargar datos
 function abrirModalModificarVenta(id) {
   cargarInmueblesParaVenta("modificar-inmueble-venta");
-
-  fetch(`http://localhost:8080/venta/detalle/${id}`)
+  const usua = "admin";
+  const password = "servicio1234";
+  const credenciales = btoa(usua + ":" + password);
+  fetch(`http://localhost:8080/venta/detalle/${id}`, {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
     .then(response => response.json())
     .then(venta => {
       ventaIdActual = venta.id;
@@ -147,7 +167,14 @@ function abrirModalModificarVenta(id) {
 
 // Abrir modal visualizar y cargar datos
 function visualizarVenta(id) {
-  fetch(`http://localhost:8080/venta/detalle/${id}`)
+  const usua = "admin";
+  const password = "servicio1234";
+  const credenciales = btoa(usua + ":" + password);
+  fetch(`http://localhost:8080/venta/detalle/${id}`, {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
     .then(response => response.json())
     .then(venta => {
       // Datos del cliente
@@ -160,7 +187,7 @@ function visualizarVenta(id) {
       document.getElementById("venta-fecha").textContent = venta.fecha?.split("T")[0] || '-';
       document.getElementById("venta-total").textContent = `$${venta.precio || 0}`;
 
-      
+
 
       // Mostrar el modal
       document.getElementById("modal-visualizar-venta").style.display = "block";
@@ -180,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (btnRegistrarVenta) {
     btnRegistrarVenta.addEventListener('click', abrirModalRegistrarVenta);
   }
-  
+
 
   const formRegistrarVenta = document.getElementById('formRegistrarVenta');
   if (formRegistrarVenta) {
@@ -198,11 +225,14 @@ document.addEventListener("DOMContentLoaded", function () {
           id: document.getElementById("inmueble-venta").value
         }
       };
-
+      const usua = "admin";
+      const password = "servicio1234";
+      const credenciales = btoa(usua + ":" + password);
       fetch("http://localhost:8080/venta/guardar", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": "Basic " + credenciales
         },
         body: JSON.stringify(venta)
       })
@@ -233,16 +263,19 @@ document.addEventListener("DOMContentLoaded", function () {
         fecha: document.getElementById("modificar-venta-fecha").value,
         estado: document.getElementById("modificar-estado-venta").value,
         precio: document.getElementById("modificar-venta-precio").value,
-        
+
         inmueble: {
           id: document.getElementById("modificar-inmueble-venta").value,
         }
       };
-
+      const usua = "admin";
+      const password = "servicio1234";
+      const credenciales = btoa(usua + ":" + password);
       fetch(`http://localhost:8080/venta/actualizar/${ventaIdActual}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": "Basic " + credenciales
         },
         body: JSON.stringify(ventaModificada)
       })

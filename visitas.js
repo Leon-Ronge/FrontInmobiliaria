@@ -1,4 +1,4 @@
-function abrirModalReporteVisita() {
+/*function abrirModalReporteVisita() {
     const modal = document.getElementById("modal-reporte-visita");
     if (modal) {
       modal.style.display = "flex";
@@ -24,31 +24,33 @@ function abrirModalVisualizarVisita(){
     if(modal){
         modal.style.display = "block";
     }
-}
+}*/
+
+let idVisitaAEliminar = null;
 
 const toggleVisitas = document.getElementById('toggleFiltroVisitas');
-  const dropdownVisitas = document.getElementById('filtroDropdownVisitas');
+const dropdownVisitas = document.getElementById('filtroDropdownVisitas');
 
-  toggleVisitas.addEventListener('click', () => {
+toggleVisitas.addEventListener('click', () => {
     dropdownVisitas.style.display = dropdownVisitas.style.display === 'block' ? 'none' : 'block';
-  });
+});
 
-  // Cierra si clickeás fuera
-  document.addEventListener('click', function (event) {
+// Cierra si clickeás fuera
+document.addEventListener('click', function (event) {
     if (!event.target.closest('.dropdown-filtro')) {
-      dropdownVisitas.style.display = 'none';
+        dropdownVisitas.style.display = 'none';
     }
-  });
+});
 
-  function aplicarFiltroVisitas() {
+function aplicarFiltroVisitas() {
     alert("Filtro aplicado con:\n" +
-      "Fecha desde: " + document.getElementById('visitaFechaDesde').value + "\n" +
-      "Fecha hasta: " + document.getElementById('visitaFechaHasta').value + "\n" +
-      "Tipo de inmueble: " + document.getElementById('visitaTipoInmueble').value + "\n" +
-      "Barrio: " + document.getElementById('visitaBarrio').value);
+        "Fecha desde: " + document.getElementById('visitaFechaDesde').value + "\n" +
+        "Fecha hasta: " + document.getElementById('visitaFechaHasta').value + "\n" +
+        "Tipo de inmueble: " + document.getElementById('visitaTipoInmueble').value + "\n" +
+        "Barrio: " + document.getElementById('visitaBarrio').value);
 
     dropdownVisitas.style.display = 'none';
-  }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     cargarVisitas();
@@ -81,10 +83,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 id: parseInt(document.getElementById("inmueble-registrar-visita").value)
             }
         };
+        const usua = "admin";
+        const password = "servicio1234";
+        const credenciales = btoa(usua + ":" + password);
 
         fetch("http://localhost:8080/visita/guardar", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic " + credenciales
+            },
             body: JSON.stringify(visita)
         })
             .then(r => r.json())
@@ -116,10 +124,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 id: parseInt(document.getElementById("inmueble-modificar-visita").value)
             }
         };
-
+        const usua = "admin";
+        const password = "servicio1234";
+        const credenciales = btoa(usua + ":" + password);
         fetch(`http://localhost:8080/visita/modificar/${id}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic " + credenciales
+            },
             body: JSON.stringify(datos)
         })
             .then(r => r.json())
@@ -135,8 +148,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("boton-confirmar-eliminar-visita")?.addEventListener("click", () => {
         if (idVisitaAEliminar !== null) {
+            const usua = "admin";
+            const password = "servicio1234";
+            const credenciales = btoa(usua + ":" + password);
             fetch(`http://localhost:8080/visita/eliminar/${idVisitaAEliminar}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    "Authorization": "Basic " + credenciales
+                }
             })
                 .then(r => {
                     if (!r.ok) throw new Error("No se pudo eliminar");
@@ -156,7 +175,14 @@ document.getElementById('botonReporte').addEventListener('click', () => {
     abrirModal('modal-reporte-visita');
 
     // Obtener el gráfico
-    fetch('http://localhost:8080/reportes/inmuebles-mas-visitados')
+    const usua = "admin";
+    const password = "servicio1234";
+    const credenciales = btoa(usua + ":" + password);
+    fetch('http://localhost:8080/reportes/inmuebles-mas-visitados', {
+        headers: {
+            "Authorization": "Basic " + credenciales
+        }
+    })
         .then(res => res.json())
         .then(data => {
             if (!data || data.length === 0) {
@@ -225,7 +251,16 @@ function cerrarModal(id) {
 
 
 function cargarVisitas() {
-    fetch("http://localhost:8080/visita/consultar")
+    const usuario = "admin";
+    const password = "servicio1234";
+    const credenciales = btoa(usuario + ":" + password);
+    fetch("http://localhost:8080/visita/consultar", {
+        headers: {
+            "Authorization": "Basic " + credenciales
+        }
+    }
+
+    )
         .then(response => response.json())
         .then(visitas => {
             const tabla = document.getElementById("tabla-resumida-visitas");
@@ -252,15 +287,22 @@ function cargarVisitas() {
 }
 
 function abrirModalVisualizarVisita(id) {
-    fetch(`http://localhost:8080/visita/consultar/${id}`)
+    const usua = "admin";
+    const password = "servicio1234";
+    const credenciales = btoa(usua + ":" + password);
+    fetch(`http://localhost:8080/visita/consultar/${id}`, {
+        headers: {
+            "Authorization": "Basic " + credenciales
+        }
+    })
         .then(r => r.json())
         .then(visita => {
-            document.getElementById("visita-fecha").innerText = `Fecha: ${visita.fecha}`;
-            document.getElementById("visita-hora").innerText = `Hora: ${visita.hora}`;
+            //document.getElementById("visita-fecha").innerText = `Fecha: ${visita.fecha}`;
+            //document.getElementById("visita-hora").innerText = `Hora: ${visita.hora}`;
             document.getElementById("visita-cliente").innerText = `Cliente: ${visita.nombre} ${visita.apellido}`;
             document.getElementById("visita-dni").innerText = `DNI: ${visita.dni}`;
             document.getElementById("visita-telefono").innerText = `Teléfono: ${visita.telefono}`;
-            document.getElementById("visita-inmueble").innerText = `Inmueble: ${visita.inmueble?.titulo || "-"}`;
+            //document.getElementById("visita-inmueble").innerText = `Inmueble: ${visita.inmueble?.titulo || "-"}`;
             document.getElementById("modal-visualizar-visita").style.display = "block";
         })
         .catch(error => {
@@ -271,9 +313,15 @@ function abrirModalVisualizarVisita(id) {
 
 function abrirModalModificarVisita(id) {
     const select = document.getElementById("inmueble-modificar-visita");
-
+    const usua = "admin";
+    const password = "servicio1234";
+    const credenciales = btoa(usua + ":" + password);
     // Primero cargamos los inmuebles
-    fetch("http://localhost:8080/inmobiliaria/listar")
+    fetch("http://localhost:8080/inmobiliaria/listar", {
+        headers: {
+            "Authorization": "Basic " + credenciales
+        }
+    })
         .then(response => response.json())
         .then(inmuebles => {
             // Limpiamos el select
@@ -286,9 +334,15 @@ function abrirModalModificarVisita(id) {
                 option.textContent = inmueble.titulo;
                 select.appendChild(option);
             });
-
+            const usua = "admin";
+            const password = "servicio1234";
+            const credenciales = btoa(usua + ":" + password);
             // Luego de poblar el select, cargamos la visita
-            return fetch(`http://localhost:8080/visita/consultar/${id}`);
+            return fetch(`http://localhost:8080/visita/consultar/${id}`, {
+                headers: {
+                    "Authorization": "Basic " + credenciales
+                }
+            });
         })
         .then(response => response.json())
         .then(visita => {
@@ -330,7 +384,14 @@ function limpiarFormularioVisita() {
 }
 
 function cargarInmueblesParaVisita() {
-    fetch("http://localhost:8080/inmobiliaria/listar")
+    const usua = "admin";
+    const password = "servicio1234";
+    const credenciales = btoa(usua + ":" + password);
+    fetch("http://localhost:8080/inmobiliaria/listar",{
+         headers: {
+            "Authorization": "Basic " + credenciales
+        }
+    })
         .then(r => r.json())
         .then(data => {
             const select = document.getElementById("inmueble-registrar-visita");
