@@ -3,34 +3,55 @@
 
 // // === ( Funciones de logica ) ===
 
-/*
+
 const toggleInmuebles = document.getElementById('toggleFiltroInmuebles');
 const dropdownInmuebles = document.getElementById('filtroDropdownInmuebles');
 
 toggleInmuebles.addEventListener('click', () => {
   dropdownInmuebles.style.display = dropdownInmuebles.style.display === 'block' ? 'none' : 'block';
 });
-
+/*
 document.addEventListener('click', function (event) {
   if (!event.target.closest('.dropdown-filtro')) {
     dropdownInmuebles.style.display = 'none';
   }
-});
+});*/
+
+let filtrosAplicados = {}; // Variable global
 
 function aplicarFiltroInmuebles() {
-  alert("Filtro aplicado:\n" +
-    "Precio desde: " + document.getElementById('precioDesde').value + "\n" +
-    "Precio hasta: " + document.getElementById('precioHasta').value + "\n" +
-    "Superficie desde: " + document.getElementById('superficieDesde').value + "\n" +
-    "Superficie hasta: " + document.getElementById('superficieHasta').value + "\n" +
-    "Tipo: " + document.getElementById('tipoInmueble').value + "\n" +
-    "Barrio: " + document.getElementById('barrio').value + "\n" +
-    "Operación: " + document.getElementById('operacion').value + "\n" +
-    "Dormitorios: " + document.getElementById('dormitorios').value + "\n" +
-    "Baños: " + document.getElementById('banos').value);
+  filtrosAplicados = {
+    barrio: document.getElementById("barrio").value || null,
+    tipoInmueble: document.getElementById("tipoInmueble").value || null,
+    operacion: document.getElementById("operacion").value || null,
+    dormitorios: document.getElementById("dormitorios").value || null,
+    banos: document.getElementById("banos").value || null,
+    precioDesde: document.getElementById("precioDesde").value || null,
+    precioHasta: document.getElementById("precioHasta").value || null,
+    superficieDesde: document.getElementById("superficieDesde").value || null,
+    superficieHasta: document.getElementById("superficieHasta").value || null
+  };
 
-  dropdownInmuebles.style.display = 'none';
-}*/
+  const params = new URLSearchParams();
+  for (const [key, val] of Object.entries(filtrosAplicados)) {
+    if (val) params.append(key, val);
+  }
+  const usuario = "admin";
+  const password = "servicio1234";
+  const credenciales = btoa(`${usuario}:${password}`);
+  fetch(`http://localhost:8080/inmobiliaria/filtrar?${params.toString()}`, {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+      mostrarInmueblesEnTabla(data);
+      document.getElementById("filtroDropdownInmuebles").style.display = "none";
+      limpiarFormularioInmueble()
+    })
+    document.getElementById("filtroDropdownInmuebles").style.display = "none";
+}
 
 function abrirModalregistrarinmueble() {
   const modal = document.getElementById("modal-registrar")
@@ -69,7 +90,7 @@ function abrirModalVisualizarInmueble(id) {
   const usua = "admin";
   const password = "servicio1234";
   const credenciales = btoa(usua + ":" + password);
-  fetch(`http://localhost:8080/inmobiliaria/${parseInt(id)}`,{
+  fetch(`http://localhost:8080/inmobiliaria/listar/${parseInt(id)}`, {
     headers: {
       "Authorization": "Basic " + credenciales
     }
@@ -114,7 +135,7 @@ function abrirModalModificarInmueble(id) {
   const usua = "admin";
   const password = "servicio1234";
   const credenciales = btoa(usua + ":" + password);
-  fetch(`http://localhost:8080/inmobiliaria/${id}`, {
+  fetch(`http://localhost:8080/inmobiliaria/listar/${id}`, {
     headers: {
       "Authorization": "Basic " + credenciales
     }
@@ -234,12 +255,59 @@ document.addEventListener("DOMContentLoaded", function () {
     btnRegistrar.addEventListener("click", abrirModalRegistrar);
   }
 
-  const botonPDF = document.getElementById("botonemitirlistadoinmuebles");
-  if (botonPDF) {
-    botonPDF.addEventListener("click", () => {
-      window.open("http://localhost:8080/inmobiliaria/pdf-inmuebles", "_blank");
+  document.getElementById("botonemitirlistadovisitas").addEventListener("click", () => {
+    const fechaDesde = document.getElementById("visitaFechaDesde").value;
+    const fechaHasta = document.getElementById("visitaFechaHasta").value;
+    const tipoInmueble = document.getElementById("visitaTipoInmueble").value;
+    const barrio = document.getElementById("visitaBarrio").value;
+
+    let url = "http://localhost:8080/visita/pdf?";
+    const params = [];
+
+    if (fechaDesde && fechaHasta) {
+        params.push(`fechaInicio=${fechaDesde}`);
+        params.push(`fechaFin=${fechaHasta}`);
+    }
+
+    if (tipoInmueble) {
+        params.push(`tipoInmueble=${encodeURIComponent(tipoInmueble)}`);
+    }
+
+    if (barrio) {
+        params.push(`barrio=${encodeURIComponent(barrio)}`);
+    }
+
+    url += params.join("&");
+    document.getElementById("filtroDropdownVisitas").style.display = "none";
+
+    const usuario = "admin";
+    const password = "servicio1234";
+    const credenciales = btoa(usuario + ":" + password);
+
+    // Abrir una pestaña en blanco primero para evitar bloqueo del navegador
+    const nuevaPestana = window.open("", "_blank");
+
+    fetch(url, {
+        method: "GET",
+        headers: {
+            "Authorization": "Basic " + credenciales
+        }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Error al generar PDF");
+        return response.blob();
+    })
+    .then(blob => {
+        const blobUrl = URL.createObjectURL(blob);
+        nuevaPestana.location.href = blobUrl;
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        nuevaPestana.close();
+        alert("No se pudo generar el PDF");
     });
-  }
+});
+
 
   const formRegistrar = document.getElementById("form-registrar-inmueble");
   if (formRegistrar) {
@@ -252,11 +320,11 @@ document.addEventListener("DOMContentLoaded", function () {
         ciudad: document.getElementById("ciudad").value,
         barrio: document.getElementById("barrio").value,
         calle: document.getElementById("calle").value,
-        altura: document.getElementById("altura").value,
-        dormitorios: document.getElementById("dormitorios").value,
-        banios: document.getElementById("banios").value,
-        superficie: document.getElementById("superficie").value,
-        precio: document.getElementById("precio").value,
+        altura: parseInt(document.getElementById("altura").value),
+        dormitorios: parseInt(document.getElementById("dormitorios").value),
+        banios: parseInt(document.getElementById("banios").value),
+        superficie: parseFloat(document.getElementById("superficie").value),
+        precio: parseFloat(document.getElementById("precio").value),
         tipoInmueble: document.getElementById("tipoInmueble").value,
         operacion: document.getElementById("operacion").value
       };
@@ -343,8 +411,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`http://localhost:8080/inmobiliaria/eliminar/${idInmuebleAEliminar}`, {
           method: 'DELETE',
           headers: {
-          "Authorization": "Basic " + credenciales
-        }
+            "Authorization": "Basic " + credenciales
+          }
         })
           .then(res => {
             if (!res.ok) throw new Error("Error al eliminar");

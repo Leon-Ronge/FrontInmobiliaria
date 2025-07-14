@@ -43,12 +43,6 @@ document.addEventListener('click', function (event) {
 });
 
 function aplicarFiltroVisitas() {
-    alert("Filtro aplicado con:\n" +
-        "Fecha desde: " + document.getElementById('visitaFechaDesde').value + "\n" +
-        "Fecha hasta: " + document.getElementById('visitaFechaHasta').value + "\n" +
-        "Tipo de inmueble: " + document.getElementById('visitaTipoInmueble').value + "\n" +
-        "Barrio: " + document.getElementById('visitaBarrio').value);
-
     dropdownVisitas.style.display = 'none';
 }
 
@@ -61,8 +55,149 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById("botonemitirlistadovisitas").addEventListener("click", () => {
-        window.open("http://localhost:8080/visita/pdf", "_blank");
+        const fechaDesde = document.getElementById("visitaFechaDesde").value;
+        const fechaHasta = document.getElementById("visitaFechaHasta").value;
+        const tipoInmueble = document.getElementById("visitaTipoInmueble").value;
+        const barrio = document.getElementById("visitaBarrio").value;
+
+        let url = "http://localhost:8080/visita/pdf?";
+        const params = [];
+
+        if (fechaDesde && fechaHasta) {
+            params.push(`fechaInicio=${fechaDesde}`);
+            params.push(`fechaFin=${fechaHasta}`);
+        }
+
+        if (tipoInmueble) {
+            params.push(`tipoInmueble=${encodeURIComponent(tipoInmueble)}`);
+        }
+
+        if (barrio) {
+            params.push(`barrio=${encodeURIComponent(barrio)}`);
+        }
+
+        url += params.join("&");
+        document.getElementById("filtroDropdownVisitas").style.display = "none";
+
+        const usuario = "admin";
+        const password = "servicio1234";
+        const credenciales = btoa(usuario + ":" + password);
+
+        // Abrir una pestaña en blanco primero para evitar bloqueo del navegador
+        const nuevaPestana = window.open("", "_blank");
+
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "Authorization": "Basic " + credenciales
+            }
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("Error al generar PDF");
+                return response.blob();
+            })
+            .then(blob => {
+                const blobUrl = URL.createObjectURL(blob);
+                nuevaPestana.location.href = blobUrl;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                nuevaPestana.close();
+                alert("No se pudo generar el PDF");
+            });
     });
+
+    document.getElementById('botonReporte').addEventListener('click', () => {
+        abrirModal('modal-reporte-visita');
+
+        const fechaDesde = document.getElementById("visitaFechaDesde").value;
+        const fechaHasta = document.getElementById("visitaFechaHasta").value;
+        const tipoInmueble = document.getElementById("visitaTipoInmueble").value;
+        const barrio = document.getElementById("visitaBarrio").value;
+
+        let url = "http://localhost:8080/reportes/visitas-filtradas?";
+        const params = [];
+
+        if (fechaDesde && fechaHasta) {
+            params.push(`fechaInicio=${fechaDesde}`);
+            params.push(`fechaFin=${fechaHasta}`);
+        }
+
+        if (tipoInmueble) {
+            params.push(`tipoInmueble=${encodeURIComponent(tipoInmueble)}`);
+        }
+
+        if (barrio) {
+            params.push(`barrio=${encodeURIComponent(barrio)}`);
+        }
+
+        url += params.join("&");
+
+        const usuario = "admin";
+        const password = "servicio1234";
+        const credenciales = btoa(usuario + ":" + password);
+
+        fetch(url, {
+            headers: {
+                "Authorization": "Basic " + credenciales
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (!data || data.length === 0) {
+                    alert("No hay datos para mostrar en el reporte.");
+                    return;
+                }
+
+                const nombres = data.map(d => d.titulo || d.nombre || d.id);  // Ajustá según qué devuelva tu backend
+                const visitas = data.map(d => d.visitas);
+
+                const canvas = document.getElementById('graficoVisitas');
+                canvas.style.display = 'block';
+                const ctx = canvas.getContext('2d');
+
+                if (window.reporteChart) {
+                    window.reporteChart.destroy();
+                }
+
+                window.reporteChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: nombres,
+                        datasets: [{
+                            label: 'Cantidad de visitas',
+                            data: visitas,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Visitas'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Inmuebles'
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(err => {
+                console.error("Error al generar el reporte:", err);
+                alert("Hubo un error al generar el reporte.");
+            });
+    });
+
 
     document.getElementById("boton-limpiar-visita")?.addEventListener("click", (e) => {
         e.preventDefault();
@@ -170,75 +305,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-document.getElementById('botonReporte').addEventListener('click', () => {
-    // Mostrar el modal
-    abrirModal('modal-reporte-visita');
-
-    // Obtener el gráfico
-    const usua = "admin";
-    const password = "servicio1234";
-    const credenciales = btoa(usua + ":" + password);
-    fetch('http://localhost:8080/reportes/inmuebles-mas-visitados', {
-        headers: {
-            "Authorization": "Basic " + credenciales
-        }
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (!data || data.length === 0) {
-                alert("No hay datos para mostrar en el reporte.");
-                return;
-            }
-
-            const nombres = data.map(d => d.nombre);
-            const visitas = data.map(d => d.visitas);
-
-            const canvas = document.getElementById('graficoVisitas');
-            canvas.style.display = 'block';
-
-            const ctx = canvas.getContext('2d');
-
-            if (window.reporteChart) {
-                window.reporteChart.destroy();
-            }
-
-            window.reporteChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: nombres,
-                    datasets: [{
-                        label: 'Cantidad de visitas',
-                        data: visitas,
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Visitas'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Inmuebles'
-                            }
-                        }
-                    }
-                }
-            });
-        })
-        .catch(err => {
-            console.error("Error al cargar el reporte:", err);
-            alert("Hubo un error al generar el reporte.");
-        });
-});
 
 // Funciones para abrir/cerrar modal
 function abrirModal(id) {
@@ -387,8 +453,8 @@ function cargarInmueblesParaVisita() {
     const usua = "admin";
     const password = "servicio1234";
     const credenciales = btoa(usua + ":" + password);
-    fetch("http://localhost:8080/inmobiliaria/listar",{
-         headers: {
+    fetch("http://localhost:8080/inmobiliaria/listar", {
+        headers: {
             "Authorization": "Basic " + credenciales
         }
     })
