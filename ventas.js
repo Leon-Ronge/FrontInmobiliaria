@@ -27,42 +27,7 @@ function abrirModalModificarVenta() {
     modal.style.display = "block";
   }
 }
-
-
-////Reporte de Venta
-
-function abrirModalReporteVenta() {
-  const modal = document.getElementById("modal-reporte-venta");
-  if (modal) {
-    modal.style.display = "block";
-  }
-}
 */
-
-document.addEventListener('DOMContentLoaded', function () {
-  const btnReporteVentas = document.getElementById('botonReporteVentas');
-  if (btnReporteVentas) {
-    btnReporteVentas.addEventListener('click', () => {
-      abrirModal('modal-reporte-venta');
-
-    });
-  }
-
-  const btnDescargar = document.getElementById('descargarReporteVentas');
-  if (btnDescargar) {
-    btnDescargar.addEventListener('click', () => {
-      const canvas = document.getElementById('graficoVentas');
-      const enlace = document.createElement('a');
-      enlace.href = canvas.toDataURL('image/png');
-      enlace.download = 'reporte_ventas.png';
-      enlace.click();
-    });
-  }
-});
-
-
-
-
 ///////
 
 const toggleBtn = document.getElementById('toggleFiltro');

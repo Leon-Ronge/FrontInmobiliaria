@@ -2827,17 +2827,3 @@ margin: 0;
   height: 40px;
   margin-bottom: 5px;
 }
-#descargarReporteVentas {
-  background-color: #fa4033;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#descargarReporteVentas:hover {
-  background-color: #c8372a;
-}
