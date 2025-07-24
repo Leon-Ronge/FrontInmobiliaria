@@ -27,7 +27,42 @@ function abrirModalModificarVenta() {
     modal.style.display = "block";
   }
 }
+
+
+////Reporte de Venta
+
+function abrirModalReporteVenta() {
+  const modal = document.getElementById("modal-reporte-venta");
+  if (modal) {
+    modal.style.display = "block";
+  }
+}
 */
+
+document.addEventListener('DOMContentLoaded', function () {
+  const btnReporteVentas = document.getElementById('botonReporteVentas');
+  if (btnReporteVentas) {
+    btnReporteVentas.addEventListener('click', () => {
+      abrirModal('modal-reporte-venta');
+
+    });
+  }
+
+  const btnDescargar = document.getElementById('descargarReporteVentas');
+  if (btnDescargar) {
+    btnDescargar.addEventListener('click', () => {
+      const canvas = document.getElementById('graficoVentas');
+      const enlace = document.createElement('a');
+      enlace.href = canvas.toDataURL('image/png');
+      enlace.download = 'reporte_ventas.png';
+      enlace.click();
+    });
+  }
+});
+
+
+
+
 ///////
 
 const toggleBtn = document.getElementById('toggleFiltro');
@@ -44,21 +79,145 @@ document.addEventListener('click', function (event) {
 });
 
 /////////////
+let ventaIdActual = null;
+/////////////
 
-function aplicarFiltroVenta() {
-  alert("Filtro aplicado con:\n" +
-    "Fecha desde: " + document.getElementById('fechaDesde').value + "\n" +
-    "Fecha hasta: " + document.getElementById('fechaHasta').value + "\n" +
-    "Precio desde: " + document.getElementById('precioDesde').value + "\n" +
-    "Precio hasta: " + document.getElementById('precioHasta').value + "\n" +
-    "Tipo de inmueble: " + document.getElementById('VentatipoInmueble').value + "\n" +
-    "Barrio: " + document.getElementById('Ventasbarrio').value);
-
-  document.getElementById('filtroDropdown').style.display = 'none';
+function obtenerFiltrosVenta() {
+  return {
+    fechaDesde: document.getElementById("fechaDesde").value,
+    fechaHasta: document.getElementById("fechaHasta").value,
+    precioDesde: document.getElementById("precioDesde").value,
+    precioHasta: document.getElementById("precioHasta").value,
+    tipoInmueble: document.getElementById("VentatipoInmueble").value,
+    barrio: document.getElementById("Ventasbarrio").value
+  };
 }
 
+function construirURL(base, filtros) {
+  const params = [];
 
-let ventaIdActual = null;
+  if (filtros.fechaDesde) params.push(`fechaInicio=${filtros.fechaDesde}`);
+  if (filtros.fechaHasta) params.push(`fechaFin=${filtros.fechaHasta}`);
+  if (filtros.precioDesde) params.push(`precioMin=${filtros.precioDesde}`);
+  if (filtros.precioHasta) params.push(`precioMax=${filtros.precioHasta}`);
+  if (filtros.tipoInmueble) params.push(`tipoInmueble=${encodeURIComponent(filtros.tipoInmueble)}`);
+  if (filtros.barrio) params.push(`barrio=${encodeURIComponent(filtros.barrio)}`);
+
+  return `${base}?${params.join("&")}`;
+}
+
+function obtenerCredenciales() {
+  return btoa("admin:servicio1234");
+}
+
+function emitirListadoVentas() {
+  const filtros = obtenerFiltrosVenta();
+  const url = construirURL("http://localhost:8080/venta/pdf", filtros);
+  const credenciales = obtenerCredenciales();
+
+  fetch(url, {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Error al generar el PDF");
+      return res.blob();
+    })
+    .then(blob => {
+      const urlBlob = URL.createObjectURL(blob);
+      window.open(urlBlob, "_blank");
+    })
+    .catch(error => {
+      console.error("Error al emitir PDF de ventas:", error);
+      alert("No se pudo generar el PDF.");
+    });
+}
+
+function generarColoresAleatorios(cantidad) {
+  const colores = [];
+  for (let i = 0; i < cantidad; i++) {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    colores.push(`rgba(${r}, ${g}, ${b}, 0.6)`);
+  }
+  return colores;
+}
+
+function emitirReporteGraficoVentas() {
+  const filtros = obtenerFiltrosVenta();
+  const url = construirURL("http://localhost:8080/reportes/ventas-filtradas", filtros);
+  const credenciales = obtenerCredenciales();
+
+  fetch(url, {
+    headers: {
+      "Authorization": "Basic " + credenciales
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (!data || data.length === 0) {
+        alert("No hay datos para mostrar en el reporte.");
+        return;
+      }
+
+      const labels = data.map(d => d.titulo);
+      const valores = data.map(d => d.ventas);
+      const colores = generarColoresAleatorios(valores.length);
+
+      const ctx = document.getElementById("graficoVentas").getContext("2d");
+
+      if (window.ventasChart) {
+        window.ventasChart.destroy();
+      }
+
+      window.ventasChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Ventas por inmueble",
+            data: valores,
+            backgroundColor: colores,
+            borderColor: colores.map(c => c.replace("0.6", "1")),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: "Reporte de Ventas" }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Ventas' }
+            },
+            x: {
+              title: { display: true, text: 'Inmuebles' },
+              barPercentage: 0.6,
+              categoryPercentage: 0.6
+            }
+          }
+
+        }
+      });
+    })
+    .catch(error => {
+      console.error("Error al generar gráfico de ventas:", error);
+      alert("No se pudo generar el reporte.");
+    });
+}
+
+function eliminarInmuebleDelSelect(idInmueble) {
+  const select = document.getElementById("inmueble-venta");
+  const opcion = select.querySelector(`option[value="${idInmueble}"]`);
+  if (opcion) {
+    opcion.remove();
+  }
+}
 
 // Cargar ventas desde el backend
 function cargarVentas() {
@@ -199,8 +358,6 @@ function visualizarVenta(id) {
 }
 
 
-
-
 // Registrar nueva venta
 document.addEventListener("DOMContentLoaded", function () {
   const btnRegistrarVenta = document.getElementById('btn-registrar-venta');
@@ -208,6 +365,11 @@ document.addEventListener("DOMContentLoaded", function () {
     btnRegistrarVenta.addEventListener('click', abrirModalRegistrarVenta);
   }
 
+  const btnPDF = document.getElementById("botonemitirlistadoventas");
+  if (btnPDF) btnPDF.addEventListener("click", emitirListadoVentas);
+
+  const btnGrafico = document.getElementById("botonReporteVentas");
+  if (btnGrafico) btnGrafico.addEventListener("click", emitirReporteGraficoVentas);
 
   const formRegistrarVenta = document.getElementById('formRegistrarVenta');
   if (formRegistrarVenta) {
@@ -241,6 +403,7 @@ document.addEventListener("DOMContentLoaded", function () {
           return response.json();
         })
         .then(() => {
+           eliminarInmuebleDelSelect(venta.inmueble.id);
           cerrarModal('modal-registrar-venta');
           cargarVentas();
         })

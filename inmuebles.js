@@ -50,7 +50,7 @@ function aplicarFiltroInmuebles() {
       document.getElementById("filtroDropdownInmuebles").style.display = "none";
       limpiarFormularioInmueble()
     })
-    document.getElementById("filtroDropdownInmuebles").style.display = "none";
+  document.getElementById("filtroDropdownInmuebles").style.display = "none";
 }
 
 function abrirModalregistrarinmueble() {
@@ -255,58 +255,64 @@ document.addEventListener("DOMContentLoaded", function () {
     btnRegistrar.addEventListener("click", abrirModalRegistrar);
   }
 
-  document.getElementById("botonemitirlistadovisitas").addEventListener("click", () => {
-    const fechaDesde = document.getElementById("visitaFechaDesde").value;
-    const fechaHasta = document.getElementById("visitaFechaHasta").value;
-    const tipoInmueble = document.getElementById("visitaTipoInmueble").value;
-    const barrio = document.getElementById("visitaBarrio").value;
+  document.getElementById("botonemitirlistadoinmuebles").addEventListener("click", function () {
+    const params = new URLSearchParams();
 
-    let url = "http://localhost:8080/visita/pdf?";
-    const params = [];
-
-    if (fechaDesde && fechaHasta) {
-        params.push(`fechaInicio=${fechaDesde}`);
-        params.push(`fechaFin=${fechaHasta}`);
+    function addParamIfValid(key, value) {
+      if (value !== null && value !== undefined && value.toString().trim() !== "") {
+        params.append(key, value);
+      }
     }
 
-    if (tipoInmueble) {
-        params.push(`tipoInmueble=${encodeURIComponent(tipoInmueble)}`);
-    }
+    const barrio = document.getElementById("barrio").value;
+    const tipoInmueble = document.getElementById("tipoInmueble").value;
+    const operacion = document.getElementById("operacion").value;
+    const dormitorios = document.getElementById("dormitorios").value;
+    const banos = document.getElementById("banos").value;
+    const precioDesde = document.getElementById("precioDesde").value;
+    const precioHasta = document.getElementById("precioHasta").value;
+    const superficieDesde = document.getElementById("superficieDesde").value;
+    const superficieHasta = document.getElementById("superficieHasta").value;
 
-    if (barrio) {
-        params.push(`barrio=${encodeURIComponent(barrio)}`);
-    }
+    addParamIfValid("barrio", barrio);
+    addParamIfValid("tipoInmueble", tipoInmueble);
+    addParamIfValid("operacion", operacion);
+    addParamIfValid("dormitorios", dormitorios);
+    addParamIfValid("banos", banos);
+    addParamIfValid("precioDesde", precioDesde);
+    addParamIfValid("precioHasta", precioHasta);
+    addParamIfValid("superficieDesde", superficieDesde);
+    addParamIfValid("superficieHasta", superficieHasta);
 
-    url += params.join("&");
-    document.getElementById("filtroDropdownVisitas").style.display = "none";
+    let url = `http://localhost:8080/inmobiliaria/pdf-inmuebles?${params.toString()}`;
 
     const usuario = "admin";
     const password = "servicio1234";
     const credenciales = btoa(usuario + ":" + password);
 
-    // Abrir una pestaña en blanco primero para evitar bloqueo del navegador
-    const nuevaPestana = window.open("", "_blank");
-
     fetch(url, {
-        method: "GET",
-        headers: {
-            "Authorization": "Basic " + credenciales
+      method: "GET",
+      headers: {
+        "Authorization": "Basic " + credenciales
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Error al generar el PDF");
         }
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Error al generar PDF");
         return response.blob();
-    })
-    .then(blob => {
-        const blobUrl = URL.createObjectURL(blob);
-        nuevaPestana.location.href = blobUrl;
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        nuevaPestana.close();
-        alert("No se pudo generar el PDF");
-    });
-});
+      })
+      .then(blob => {
+        const fileURL = URL.createObjectURL(blob);
+        window.open(fileURL, "_blank");
+      })
+      .catch(error => {
+        console.error("Error al emitir listado de inmuebles:", error);
+        alert("No se pudo generar el reporte.");
+      });
+  });
+
+
 
 
   const formRegistrar = document.getElementById("form-registrar-inmueble");
@@ -315,22 +321,25 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
 
       const inmueble = {
-        titulo: document.getElementById("titulo").value,
-        descripcion: document.getElementById("descripcion-registro-inmueble").value,
-        ciudad: document.getElementById("ciudad").value,
-        barrio: document.getElementById("barrio").value,
-        calle: document.getElementById("calle").value,
+        titulo: document.getElementById("titulo").value.trim(),
+        descripcion: document.getElementById("descripcion-registro-inmueble").value.trim(),
+        ciudad: document.getElementById("ciudad").value.trim(),
+        barrio: document.getElementById("barrio").value.trim(),
+        calle: document.getElementById("calle").value.trim(),
         altura: parseInt(document.getElementById("altura").value),
-        dormitorios: parseInt(document.getElementById("dormitorios").value),
+        dormitorios: document.getElementById("dormitorios").value ? parseInt(document.getElementById("dormitorios").value) : null,
         banios: parseInt(document.getElementById("banios").value),
-        superficie: parseFloat(document.getElementById("superficie").value),
+        tipoInmueble: document.getElementById("tipoInmueble").value.trim(),
+        operacion: document.getElementById("operacion").value.trim(),
         precio: parseFloat(document.getElementById("precio").value),
-        tipoInmueble: document.getElementById("tipoInmueble").value,
-        operacion: document.getElementById("operacion").value
+        superficie: parseFloat(document.getElementById("superficie").value)
       };
+
+
       const usua = "admin";
       const password = "servicio1234";
       const credenciales = btoa(usua + ":" + password);
+      console.log("Datos enviados:", inmueble);
       fetch("http://localhost:8080/inmobiliaria/guardar", {
         method: "POST",
         headers: {
@@ -378,6 +387,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const usua = "admin";
       const password = "servicio1234";
       const credenciales = btoa(usua + ":" + password);
+
+      console.log("Datos enviados:", datos);
       fetch(`http://localhost:8080/inmobiliaria/modificar/${id}`, {
         method: "PUT",
         headers: {

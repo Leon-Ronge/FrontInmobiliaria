@@ -107,96 +107,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-    document.getElementById('botonReporte').addEventListener('click', () => {
-        abrirModal('modal-reporte-visita');
+    const btnGraficoVisitas = document.getElementById("botonReporteVisitas");
+    if (btnGraficoVisitas) btnGraficoVisitas.addEventListener("click", emitirReporteGraficoVisitas);
 
-        const fechaDesde = document.getElementById("visitaFechaDesde").value;
-        const fechaHasta = document.getElementById("visitaFechaHasta").value;
-        const tipoInmueble = document.getElementById("visitaTipoInmueble").value;
-        const barrio = document.getElementById("visitaBarrio").value;
-
-        let url = "http://localhost:8080/reportes/visitas-filtradas?";
-        const params = [];
-
-        if (fechaDesde && fechaHasta) {
-            params.push(`fechaInicio=${fechaDesde}`);
-            params.push(`fechaFin=${fechaHasta}`);
-        }
-
-        if (tipoInmueble) {
-            params.push(`tipoInmueble=${encodeURIComponent(tipoInmueble)}`);
-        }
-
-        if (barrio) {
-            params.push(`barrio=${encodeURIComponent(barrio)}`);
-        }
-
-        url += params.join("&");
-
-        const usuario = "admin";
-        const password = "servicio1234";
-        const credenciales = btoa(usuario + ":" + password);
-
-        fetch(url, {
-            headers: {
-                "Authorization": "Basic " + credenciales
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (!data || data.length === 0) {
-                    alert("No hay datos para mostrar en el reporte.");
-                    return;
-                }
-
-                const nombres = data.map(d => d.titulo || d.nombre || d.id);  // Ajustá según qué devuelva tu backend
-                const visitas = data.map(d => d.visitas);
-
-                const canvas = document.getElementById('graficoVisitas');
-                canvas.style.display = 'block';
-                const ctx = canvas.getContext('2d');
-
-                if (window.reporteChart) {
-                    window.reporteChart.destroy();
-                }
-
-                window.reporteChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: nombres,
-                        datasets: [{
-                            label: 'Cantidad de visitas',
-                            data: visitas,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Visitas'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Inmuebles'
-                                }
-                            }
-                        }
-                    }
-                });
-            })
-            .catch(err => {
-                console.error("Error al generar el reporte:", err);
-                alert("Hubo un error al generar el reporte.");
-            });
-    });
 
 
     document.getElementById("boton-limpiar-visita")?.addEventListener("click", (e) => {
@@ -488,3 +401,128 @@ function cargarInmueblesParaVisita() {
 function cerrarModal(idModal) {
     document.getElementById(idModal).style.display = "none";
 }
+
+function generarColoresAleatorios(cantidad) {
+    const colores = [];
+    for (let i = 0; i < cantidad; i++) {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        colores.push(`rgba(${r}, ${g}, ${b}, 0.6)`);
+    }
+    return colores;
+}
+
+
+function emitirReporteGraficoVisitas() {
+    abrirModal('modal-reporte-visita');
+
+    const fechaDesde = document.getElementById("visitaFechaDesde").value;
+    const fechaHasta = document.getElementById("visitaFechaHasta").value;
+    const tipoInmueble = document.getElementById("visitaTipoInmueble").value;
+    const barrio = document.getElementById("visitaBarrio").value;
+
+    let url = "http://localhost:8080/reportes/visitas-filtradas?";
+    const params = [];
+
+    if (fechaDesde && fechaHasta) {
+        params.push(`fechaInicio=${fechaDesde}`);
+        params.push(`fechaFin=${fechaHasta}`);
+    }
+
+    if (tipoInmueble) {
+        params.push(`tipoInmueble=${encodeURIComponent(tipoInmueble)}`);
+    }
+
+    if (barrio) {
+        params.push(`barrio=${encodeURIComponent(barrio)}`);
+    }
+
+    url += params.join("&");
+
+    const usuario = "admin";
+    const password = "servicio1234";
+    const credenciales = btoa(usuario + ":" + password);
+
+    fetch(url, {
+        headers: {
+            "Authorization": "Basic " + credenciales
+        }
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (!data || data.length === 0) {
+                alert("No hay datos para mostrar en el reporte.");
+                return;
+            }
+
+            const nombres = data.map(d => d.titulo || d.nombre || d.id);
+            const visitas = data.map(d => d.visitas);
+            const colores = generarColoresAleatorios(visitas.length);
+
+            const canvas = document.getElementById('graficoVisitas');
+            canvas.style.display = 'block';
+            const ctx = canvas.getContext('2d');
+
+            // Si hay un gráfico previo, destruirlo
+            if (window.reporteChart) {
+                window.reporteChart.destroy();
+            }
+
+            // Crear el nuevo gráfico
+            window.reporteChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: nombres,
+                    datasets: [{
+                        label: 'Cantidad de visitas',
+                        data: visitas,
+                        backgroundColor: colores,
+                        borderColor: colores.map(c => c.replace("0.6", "1")),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: "Reporte de Visitas" }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Visitas' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Inmuebles' },
+                            barPercentage: 0.6,
+                            categoryPercentage: 0.6
+                        }
+                    }
+                }
+            });
+
+            // Mostrar botón de descarga
+            document.getElementById("descargarreportevisitas").style.display = "inline-block";
+        })
+        .catch(err => {
+            console.error("Error al generar el reporte:", err);
+            alert("Hubo un error al generar el reporte.");
+        });
+}
+
+// Descargar el gráfico como PNG
+document.getElementById("descargarreportevisitas").addEventListener("click", function () {
+    const canvas = document.getElementById("graficoVisitas");
+
+    if (!canvas) {
+        alert("No hay gráfico para descargar.");
+        return;
+    }
+
+    const enlace = document.createElement("a");
+    enlace.href = canvas.toDataURL("image/png");
+    enlace.download = "reporte-visitas.png";
+    enlace.click();
+});
+

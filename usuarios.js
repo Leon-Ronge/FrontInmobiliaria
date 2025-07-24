@@ -3,6 +3,7 @@ let idUsuarioAEliminar = null;
 // === FUNCIONES ===
 
 // Mostrar campo de inmueble si el rol es propietario o inquilino
+/*
 document.getElementById("rol").addEventListener("change", function () {
     const rol = this.value;
     const campo = document.getElementById("campo-inmueble-registrar");
@@ -88,7 +89,7 @@ document.getElementById("agregar-inmueble-btn-modificar").addEventListener("clic
     wrapper.appendChild(nuevoSelect);
     wrapper.appendChild(eliminar);
     container.appendChild(wrapper);
-});
+});*/
 
 
 ///////Filtros
@@ -110,9 +111,6 @@ function aplicarFiltroUsuarios() {
     const rol = document.getElementById('filtroRol').value;
     const estado = document.getElementById('filtroEstado').value;
 
-    alert("Filtro aplicado:\n" +
-        "Rol: " + rol + "\n" +
-        "Estado: " + estado);
 
     dropdownUsuarios.style.display = 'none';
 }
@@ -277,6 +275,47 @@ function cargarUsuarios() {
 // // === EVENTOS PRINCIPALES ===
 document.addEventListener('DOMContentLoaded', function () {
     cargarUsuarios();
+
+    document.getElementById("botonemitirlistadousuarios").addEventListener("click", () => {
+        const rol = document.getElementById("filtroRol").value;
+        const estado = document.getElementById("filtroEstado").value;
+
+        let url = "http://localhost:8080/usuario/pdf?";
+        const params = [];
+
+        if (rol) params.push(`rol=${encodeURIComponent(rol)}`);
+        if (estado) params.push(`estado=${encodeURIComponent(estado)}`);
+
+        url += params.join("&");
+
+        const dropdownUsuarios = document.getElementById("filtroDropdownUsuarios");
+        if (dropdownUsuarios) dropdownUsuarios.style.display = "none";
+
+        const usuario = "admin";
+        const password = "servicio1234";
+        const credenciales = btoa(usuario + ":" + password); 
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "Authorization": "Basic " + credenciales
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al generar el PDF");
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const fileURL = URL.createObjectURL(blob);
+                window.open(fileURL, "_blank");
+            })
+            .catch(error => {
+                console.error("Error al emitir listado de usuarios:", error);
+                alert("No se pudo generar el reporte.");
+            });
+    });
+
 
     // Botón para abrir modal de registro
     const btnRegistrarUsuario = document.getElementById("btnregistrarusuario");

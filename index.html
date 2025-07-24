@@ -129,7 +129,7 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-inmuebles">
-           
+
           </tbody>
         </table>
       </div>
@@ -228,12 +228,12 @@
             <div class="precio-container">
               <input type="number" id="precio" min="0" onkeydown="return !['e','E','+','-'].includes(event.key)"
                 required>
-              <div class="moneda-selector">
+              <!--<div class="moneda-selector">
                 <input type="radio" id="pesos" name="moneda" value="pesos" checked>
                 <label for="pesos">Pesos</label>
                 <input type="radio" id="dolares" name="moneda" value="dolares">
                 <label for="dolares">Dolares</label>
-              </div>
+              </div>-->
             </div>
 
             <label>Tipo de Inmueble <span id="obligatorio">*</span></label>
@@ -245,11 +245,11 @@
             </select>
 
             <label>Operación <span id="obligatorio">*</span></label>
-            <select id="operacion">
+            <select id="operacion" required>
               <option disabled selected>Operación</option>
               <option value="venta">Venta</option>
               <option value="alquiler">Alquiler</option>
-              <option value="alquiler">Alquiler temporal</option>
+              <option value="alquiler-temporal">Alquiler temporal</option>
             </select>
 
             <button id="btnregistrarinmueble" class="btn">Confirmar</button>
@@ -357,7 +357,7 @@
       <div class="visitas-actions">
         <button id="btnregistrarvisita" onclick="abrirModalRegistrarVisita()">Registrar visita</button>
         <button id="botonemitirlistadovisitas">Emitir listado</button>
-        <button id="botonReporte" onclick="abrirModalReporteVisita()">Reporte</button>
+        <button id="botonReporte" onclick="emitirReporteGraficoVisitas()">Reporte</button>
         <div class="dropdown-filtro">
           <button id="toggleFiltroVisitas" class="btn-filtrar">Filtrar &#x25BC;</button>
 
@@ -411,7 +411,7 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-visitas">
-            
+
           </tbody>
         </table>
       </div>
@@ -636,9 +636,11 @@
               <label><strong>Rol</strong></label>
               <select id="filtroRol">
                 <option value="">Todos</option>
-                <option value="administrador">Administrador</option>
-                <option value="agente">Agente</option>
-                <option value="cliente">Cliente</option>
+                <option value="Administrador">Administrador</option>
+                <option value="Vendedor">Vendedor</option>
+                <option value="Secretario">Secretario</option>
+                <option value="Inquilino">Inquilino</option>
+                <option value="Propietario">Propietario</option>
               </select>
             </div>
 
@@ -671,7 +673,7 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-usuarios">
-            
+
 
           </tbody>
         </table>
@@ -703,11 +705,11 @@
             <label>Rol <span id="obligatorio">*</span></label>
             <select id="rol" required>
               <option disabled selected>Seleccionar rol</option>
-              <option value="admin">Administrador</option>
-              <option value="vendedor">Vendedor</option>
-              <option value="secretario">Secretario</option>
-              <option value="inquilino">Inquilino</option>
-              <option value="propietario">Propietario</option>
+              <option value="Administrador">Administrador</option>
+              <option value="Vendedor">Vendedor</option>
+              <option value="Secretario">Secretario</option>
+              <option value="Inquilino">Inquilino</option>
+              <option value="Propietario">Propietario</option>
             </select>
 
             <label>Estado <span id="obligatorio">*</span></label>
@@ -717,22 +719,6 @@
               <option value="inactivo">Inactivo</option>
             </select>
 
-            <div id="campo-inmueble-registrar" style="display: none;">
-              <label>Inmuebles <span id="obligatorio">*</span></label>
-              <div id="inmuebles-container-registrar">
-                <div class="usuario-inmueble-wrapper">
-                  <select class="usuario-inmueble-select" name="inmueble" required>
-                    <option disabled selected>Seleccionar inmueble</option>
-                    <option value="inmueble1">Av. Siempre Viva 742</option>
-                    <option value="inmueble2">Estrada 75</option>
-                  </select>
-                </div>
-
-
-              </div>
-              <button type="button" id="agregar-inmueble-btn-registrar" class="btn-agregar-inmueble">+ Agregar
-                inmueble</button>
-            </div>
 
             <div id="correrbotones" style="margin-top: 20px; display: flex; gap: 10px;">
               <button id="boton-limpiar-usuario" class="btn" onclick="limpiarFormularioUsuario() ">Limpiar</button>
@@ -769,7 +755,7 @@
             <input type="email" id="emailModificarUsuario" required>
 
             <label>Rol <span id="obligatorio">*</span></label>
-            <select id="rol-modificar" required>
+            <select id="rolModificarUsuario" required>
               <option disabled selected>Seleccionar rol</option>
               <option value="admin">Administrador</option>
               <option value="vendedor">Vendedor</option>
@@ -784,25 +770,6 @@
               <option value="activo">Activo</option>
               <option value="inactivo">Inactivo</option>
             </select>
-
-
-            <div id="campo-usuario-modificar" style="display: none;">
-              <label>Inmuebles <span id="obligatorio">*</span></label>
-              <div id="inmuebles-container-modificar">
-                <div class="modificar-inmueble-wrapper">
-                  <select class="modificar-inmueble-select" name="inmueble" required>
-                    <option disabled selected>Seleccionar inmueble</option>
-                    <option value="inmueble1">Departamento - Mitre 123</option>
-                    <option value="inmueble2">Casa - Sarmiento 456</option>
-                    <option value="inmueble3">Local - Belgrano 789</option>
-                  </select>
-                </div>
-              </div>
-              <button type="button" id="agregar-inmueble-btn-modificar" class="btn-agregar-inmueble">
-                + Agregar inmueble
-              </button>
-            </div>
-
             <div id="correrbotones" style="margin-top: 20px; display: flex; gap: 10px;">
               <button id="boton-limpiar-usuario" class="btn" onclick="limpiarFormularioUsuario() ">Limpiar</button>
               <button id="boton-guardar-cambios-usuario" type="submit" class="btn">Guardar cambios</button>
@@ -853,6 +820,7 @@
       <div class="ventas-actions">
         <button id="btn-registrar-venta" onclick="abrirModalRegistrarVenta()">Registrar venta</button>
         <button id="botonemitirlistadoventas">Emitir listado</button>
+        <button id="botonReporteVentas" onclick="emitirReporteGraficoVentas()">Reporte</button>
         <div class="dropdown-filtro">
           <button id="toggleFiltro" class="btn-filtrar">Filtrar &#x25BC;</button>
 
@@ -912,7 +880,7 @@
             </tr>
           </thead>
           <tbody id="tabla-resumida-ventas">
-            
+
           </tbody>
         </table>
       </div>
@@ -1137,11 +1105,25 @@
           </div>
         </div>
       </div>
+    </div>
+    <!-- Modal Reporte Ventas -->
+    <div id="modal-reporte-venta" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModal('modal-reporte-venta')">&times;</span>
+        <h2>Reporte de Ventas</h2>
+        <canvas id="graficoVentas" width="600" height="400"></canvas>
+        <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button id="descargarReporteVentas">Descargar</button>
+        </div>
+      </div>
+    </div>
 
-      <script src="funcionesweb.js"></script>
-      <script src="modales.js"></script>
-      <script src="inmuebles.js"></script>
-      <script src="usuarios.js"></script>
-      <script src="visitas.js"></script>
-      <script src="ventas.js"></script>
+
+
+    <script src="funcionesweb.js"></script>
+    <script src="modales.js"></script>
+    <script src="inmuebles.js"></script>
+    <script src="usuarios.js"></script>
+    <script src="visitas.js"></script>
+    <script src="ventas.js"></script>
 </body>
